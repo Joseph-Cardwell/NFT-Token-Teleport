@@ -183,51 +183,6 @@ abstract contract Context {
     }
 }
 
-/**
- * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed
- * behind a proxy. Since a proxied contract can't have a constructor, it's common to move constructor logic to an
- * external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer
- * function so it can only be called once. The {initializer} modifier provided by this contract will have this effect.
- *
- * TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as
- * possible by providing the encoded function call as the `_data` argument to {UpgradeableProxy-constructor}.
- *
- * CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure
- * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.
- */
-abstract contract Initializable {
-//@openzeppelin/upgrades/contracts/Initializable.sol
-
-    /**
-     * @dev Indicates that the contract has been initialized.
-     */
-    bool private _initialized;
-
-    /**
-     * @dev Indicates that the contract is in the process of being initialized.
-     */
-    bool private _initializing;
-
-    /**
-     * @dev Modifier to protect an initializer function from being invoked twice.
-     */
-    modifier initializer() {
-        require(_initializing || !_initialized, "Initializable: contract is already initialized");
-
-        bool isTopLevelCall = !_initializing;
-        if (isTopLevelCall) {
-            _initializing = true;
-            _initialized = true;
-        }
-
-        _;
-
-        if (isTopLevelCall) {
-            _initializing = false;
-        }
-    }
-}
-
 contract Ownable is Context {
     address internal owner_;
 
@@ -253,16 +208,7 @@ contract Ownable is Context {
     }
 }
 
-interface INftMintBurn {
-    function mintTo(address recipient, uint256 tokenId, string calldata tokenUri) external returns (bool);
-    function burn(uint256 tokenId) external returns (bool);
-}
-
-interface INftTeleportAgent {
-    function teleportWrappedStart(address _wrappedErc721Addr, uint256 _tokenId) external payable returns (bool);
-}
-
-contract ERC721TokenImplementation is Ownable, IERC165, IERC721, IERC721Metadata, IERC721Enumerable, INftMintBurn, Initializable {
+contract ScottyBeam is Ownable, IERC165, IERC721, IERC721Metadata, IERC721Enumerable {
     string private name_;
     string private symbol_;
     mapping(uint256 => address) private owners_;
@@ -275,7 +221,7 @@ contract ERC721TokenImplementation is Ownable, IERC165, IERC721, IERC721Metadata
     uint256[] private allTokens_; // Array with all token ids, used for enumeration
     mapping(uint256 => uint256) private allTokensIndex_; // Mapping from token id to position in the allTokens array
 
-    function initialize(string memory _name, string memory _symbol, address _owner) public initializer {
+    constructor(string memory _name, string memory _symbol, address _owner) {
         require(_owner != address(0), "ERC721: owner cannot be zero address");
         name_ = _name;
         symbol_ = _symbol;
@@ -320,22 +266,6 @@ contract ERC721TokenImplementation is Ownable, IERC165, IERC721, IERC721Metadata
         _transfer(_from, _to, _tokenId);
     }
     
-    /* Requesting teleportation, burning an existing NFT clone, 
-     * and unfreezing NFT back into its original form.
-     * 
-     * > Initializing portable transporter...
-     *
-     */
-    function safeTransferToOriginalChain(uint256 _tokenId) external payable returns (bool) {
-        address msgSender = _msgSender();
-        
-        require(!_isContract(msgSender), "contract not allowed to transfer");
-        require(msgSender == tx.origin, "proxy not allowed to transfer");
-        require(msgSender == ownerOf(_tokenId), "ERC721: caller is not owner");
-        
-        return INftTeleportAgent(owner()).teleportWrappedStart{value: msg.value}(address(this), _tokenId);
-    }
-    
     function approve(address _approved, uint256 _tokenId) external payable virtual override {
         address owner = ownerOf(_tokenId);
 
@@ -369,13 +299,13 @@ contract ERC721TokenImplementation is Ownable, IERC165, IERC721, IERC721Metadata
             || _interfaceId == type(IERC721Enumerable).interfaceId;
     }
     
-    function mintTo(address _recipient, uint256 _tokenId, string calldata _tokenUri) external onlyOwner virtual override returns (bool) {
+    function mintTo(address _recipient, uint256 _tokenId, string calldata _tokenUri) external onlyOwner returns (bool) {
         _safeMint(_recipient, _tokenId);
         _setTokenURI(_tokenId, _tokenUri);
         return true;
     }
 
-    function burn(uint256 _tokenId) external onlyOwner virtual override returns (bool) {
+    function burn(uint256 _tokenId) external onlyOwner returns (bool) {
         address owner = ownerOf(_tokenId);
 
         _beforeTokenTransfer(owner, address(0), _tokenId);

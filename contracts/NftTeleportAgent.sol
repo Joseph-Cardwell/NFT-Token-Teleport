@@ -1,5 +1,15 @@
-v// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+
+interface IERC165 {
+    /// @notice Query if a contract implements an interface
+    /// @param interfaceID The interface identifier, as specified in ERC-165
+    /// @dev Interface identification is specified in ERC-165. This function
+    ///  uses less than 30,000 gas.
+    /// @return `true` if the contract implements `interfaceID` and
+    ///  `interfaceID` is not 0xffffffff, `false` otherwise
+    function supportsInterface(bytes4 interfaceID) external view returns (bool);
+}
 
 interface IERC721Transfer {
     /// @notice Transfers the ownership of an NFT from one address to another address
@@ -9,6 +19,18 @@ interface IERC721Transfer {
     /// @param _to The new owner
     /// @param _tokenId The NFT to transfer
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
+
+    /// @notice Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE
+    ///  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE
+    ///  THEY MAY BE PERMANENTLY LOST
+    /// @dev Throws unless `msg.sender` is the current owner, an authorized
+    ///  operator, or the approved address for this NFT. Throws if `_from` is
+    ///  not the current owner. Throws if `_to` is the zero address. Throws if
+    ///  `_tokenId` is not a valid NFT.
+    /// @param _from The current owner of the NFT
+    /// @param _to The new owner
+    /// @param _tokenId The NFT to transfer
+    function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
 }
 
 /**
@@ -197,6 +219,39 @@ library Address {
     }
 }
 
+/// @title ERC-721 Non-Fungible Token Standard, optional metadata extension
+/// @dev See https://eips.ethereum.org/EIPS/eip-721
+///  Note: the ERC-165 identifier for this interface is 0x5b5e139f.
+interface IERC721Metadata {
+    /// @notice A descriptive name for a collection of NFTs in this contract
+    function name() external view returns (string memory _name);
+
+    /// @notice An abbreviated name for NFTs in this contract
+    function symbol() external view returns (string memory _symbol);
+
+    /// @notice A distinct Uniform Resource Identifier (URI) for a given asset.
+    /// @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC
+    ///  3986. The URI may point to a JSON file that conforms to the "ERC721
+    ///  Metadata JSON Schema".
+    function tokenURI(uint256 _tokenId) external view returns (string memory);
+}
+
+interface ERC721TokenReceiver {
+    /// @notice Handle the receipt of an NFT
+    /// @dev The ERC721 smart contract calls this function on the recipient
+    ///  after a `transfer`. This function MAY throw to revert and reject the
+    ///  transfer. Return of other than the magic value MUST result in the
+    ///  transaction being reverted.
+    ///  Note: the contract address is always the message sender.
+    /// @param _operator The address which called `safeTransferFrom` function
+    /// @param _from The address which previously owned the token
+    /// @param _tokenId The NFT identifier which is being transferred
+    /// @param _data Additional data with no specified format
+    /// @return `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`
+    ///  unless throwing
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes calldata _data) external returns(bytes4);
+}
+
 /*
  * @dev Provides information about the current execution context, including the
  * sender of the transaction and its data. While these are generally available
@@ -219,32 +274,33 @@ abstract contract Context {
 }
 
 contract Ownable is Context {
-  address private _owner;
+    address internal owner_;
 
-  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    
+    constructor(address _owner) {
+        owner_ = _owner;
+        emit OwnershipTransferred(address(0), owner_);
+    }
+  
+    modifier onlyOwner() {
+        require(owner_ == _msgSender(), "Ownable: caller is not the owner");
+        _;
+    }
 
-  /**
-   * @dev Initializes the contract setting the deployer as the initial owner.
-   */
-  constructor(address owner_) {
-    _owner = owner_;
-    emit OwnershipTransferred(address(0), owner_);
-  }
-
-  /**
-   * @dev Returns the address of the current owner.
-   */
-  function owner() public view returns (address) {
-    return _owner;
-  }
-
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(_owner == _msgSender(), "Ownable: caller is not the owner");
-    _;
-  }
+    function owner() public view returns (address) {
+        return owner_;
+    }
+  
+    /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Can only be called by the current owner.
+     */
+    function transferOwnership(address _newOwner) public onlyOwner {
+        require(_newOwner != address(0), "ERC721: new owner is the zero address");
+        emit OwnershipTransferred(owner(), _newOwner);
+        owner_ = _newOwner;
+    }
 }
 
 /**
@@ -549,98 +605,245 @@ interface IProxyInitialize {
     function initialize(string calldata name, string calldata symbol, address owner) external;
 }
 
-interface IToken {
+interface INftMintBurn {
     function mintTo(address recipient, uint256 tokenId, string calldata tokenUri) external returns (bool);
-    function burn(address owner, uint256 tokenId) external returns (bool);
+    function burn(uint256 tokenId) external returns (bool);
 }
 
-contract BscNftTeleportAgent is Ownable {
-    mapping(address => address) public swapsEthToBsc;
-    mapping(address => address) public swapsBscToEth;
-    mapping(address => bool) public contractWhitelist;
-    mapping(bytes32 => bool) public filledEthTxs;
+interface IERC721 {
+    function ownerOf(uint256 _tokenId) external view returns (address);
+}
 
-    address public bscErc721ProxyAdmin;
-    address public bscErc721Implementation;
-    uint256 public swapFee;
-    address public lastCreatedToken;
+contract NftTeleportAgent is Ownable, ERC721TokenReceiver {
+    mapping(address => bool) public originalErc721_;
+    mapping(address => bool) public wrappedErc721_;
+    mapping(bytes32 => bool) public filledTeleports_;
+    mapping(address => address) public teleportPairsHereToThere_;
+    mapping(address => address) public teleportPairsThereToHere_;
+    address public wrappedErc721Implementation_;
+    address public wrappedErc721ProxyAdmin_;
+    uint256 public fee_;
     
-    string private constant ERROR_TOKEN_PAIR_NOT_CREATED = "no swap pair for this token";
+    bytes4 private constant RETURN_VALUE_ON_ERC721_RECEIVED = 0x150b7a02;
+    bytes4 private constant INTERFACE_ID_ERC_721_METADATA = 0x5b5e139f;
+    string private constant ERROR_TOKEN_NOT_REGISTERED = "token is not registered";
+    string private constant ERROR_TOKEN_PAIR_NOT_CREATED = "token pair is not created";
+    string private constant ERROR_TELEPORT_TX_FILLED_ALREADY = "teleport tx filled already";
+    string private constant ERROR_FEE_MISMATCH = "fee mismatch";
+    string private constant ERROR_CALLER_NOT_OWNER_OF_NFT = "caller is not the owner of NFT token";
 
-    event SwapPairCreated(bytes32 indexed ethRegisterTxHash, address indexed bscErc721Addr, address indexed ethErc721Addr, string symbol, string name);
-    event SwapStarted(address indexed bscErc721Addr, address indexed ethErc721Addr, address indexed fromAddr, uint256 tokenId, uint256 feeAmount);
-    event SwapFilled(address indexed bscErc721Addr, bytes32 indexed ethTxHash, address indexed toAddress, uint256 tokenId, string tokenUri);
-
-    constructor(address _bscErc721Impl, uint256 _fee, address _ownerAddr, address _bscErc721ProxyAdmin) Ownable(_ownerAddr) {
-        bscErc721Implementation = _bscErc721Impl;
-        swapFee = _fee;
-        bscErc721ProxyAdmin = _bscErc721ProxyAdmin;
+    event TeleportPairRegistered(address indexed sponsor,address indexed originalErc721Addr, string name, string symbol);
+    event TeleportPairCreated(bytes32 indexed otherChainRegisterTxHash, address indexed wrappedErc721Addr, address indexed originalErc721Addr, string symbol, string name);
+    event TeleportOriginalStarted(address indexed originalErc721Addr, address indexed fromAddr, uint256 tokenId, string tokenUri, uint256 feeAmount);
+    event TeleportOriginalFilled(address indexed wrappedErc721Addr, bytes32 indexed otherChainTxHash, address indexed toAddress, uint256 tokenId, string tokenUri);
+    event TeleportWrappedStarted(address indexed wrappedErc721Addr, address indexed originalErc721Addr, address indexed fromAddr, uint256 tokenId, uint256 feeAmount);
+    event TeleportWrappedFilled(address indexed originalErc721Addr, bytes32 indexed otherChainTxHash, address indexed toAddress, uint256 tokenId);
+    
+    constructor(uint256 _fee, address _ownerAddr, address _wrappedErc721Impl, address _wrappedErc721ProxyAdmin) Ownable(_ownerAddr) {
+        fee_ = _fee;
+        wrappedErc721Implementation_ = _wrappedErc721Impl;
+        wrappedErc721ProxyAdmin_ = _wrappedErc721ProxyAdmin;
     }
-
+    
     function _isContract(address _addr) private view returns (bool) {
         uint size;
         assembly { size := extcodesize(_addr) }
         return size > 0;
     }
-
-    function setSwapFee(uint256 fee) onlyOwner external {
-        swapFee = fee;
+    
+    function _ensureNotContract(address _addr) private view {
+        require(!_isContract(_addr), "contract not allowed to teleport");
+        require(_addr == tx.origin, "proxy not allowed to teleport");
     }
 
-    function createSwapPair(bytes32 _ethTxHash, address _ethErc721Addr, string calldata _name, string calldata _symbol) onlyOwner external returns (address) {
-        require(swapsEthToBsc[_ethErc721Addr] == address(0x0), "swap pair already created");
-
-        TransparentUpgradeableProxy proxyToken = new TransparentUpgradeableProxy(bscErc721Implementation, bscErc721ProxyAdmin, "");
-        IProxyInitialize token = IProxyInitialize(address(proxyToken));
-        token.initialize(_name, _symbol, address(this));
-        
-        contractWhitelist[address(token)] = true;
-
-        swapsEthToBsc[_ethErc721Addr] = address(token);
-        swapsBscToEth[address(token)] = _ethErc721Addr;
-
-        emit SwapPairCreated(_ethTxHash, address(token), _ethErc721Addr, _symbol, _name);
-        lastCreatedToken = address(token);
-
-        return address(token);
+    function setSwapFee(uint256 _fee) onlyOwner external {
+        fee_ = _fee;
     }
+    
+    /* There are many beatiful life forms of NFT out there. 
+     * To differentiate, the transporter is analyzing NFT DNA sequence,
+     * type and behaviour, and classifying the niche's life form it belongs to.
+     * Based on this information, it's placing an NFT clone in the other realm
+     * in a way that matches its species.
+     *
+     * > Analyzing NFT DNA sequence...
+     * > Classifying niche's life form...
+     * > Registering NFT clone...
+     *
+     */
+    function registerTeleportPair(address _originalErc721Addr) external returns (bool) {
+        require(_isContract(_originalErc721Addr), "given address is not a contract");
+        require(!originalErc721_[_originalErc721Addr], "already registered");
+        require(!wrappedErc721_[_originalErc721Addr], "teleported token cannot be registered as original");
+        
+        string memory name;
+        string memory symbol;
+        
+        if(IERC165(_originalErc721Addr).supportsInterface(INTERFACE_ID_ERC_721_METADATA)) {
+            name = IERC721Metadata(_originalErc721Addr).name();
+            symbol = IERC721Metadata(_originalErc721Addr).symbol();
+        }
 
-    function fillSwapEthToBsc(bytes32 _ethTxHash, address _ethErc721Addr, address _toAddress, uint256 _tokenId, string calldata _tokenUri) onlyOwner external returns (bool) {
-        require(!filledEthTxs[_ethTxHash], "ETH tx filled already");
-        
-        address bscTokenAddr = swapsEthToBsc[_ethErc721Addr];
-        
-        require(bscTokenAddr != address(0x0), ERROR_TOKEN_PAIR_NOT_CREATED);
-        
-        filledEthTxs[_ethTxHash] = true;
-        IToken(bscTokenAddr).mintTo(_toAddress, _tokenId, _tokenUri);
-        
-        emit SwapFilled(bscTokenAddr, _ethTxHash, _toAddress, _tokenId, _tokenUri);
+        originalErc721_[_originalErc721Addr] = true;
+
+        emit TeleportPairRegistered(_msgSender(), _originalErc721Addr, name, symbol);
 
         return true;
     }
+    
+    /* After classification analysis of NFT species is completed, 
+     * the transporter is creating the NFT on the other side's chamber.
+     * This is done to easily differentiate between certain NFT life forms 
+     * in different ecological niches, i.e. blockchains.
+     *
+     * > Reproducing the NFT life form...
+     *
+     */
+    function createTeleportPair(bytes32 _otherChainRegisterTxHash, address _originalErc721Addr, string calldata _name, string calldata _symbol) onlyOwner external returns (address) {
+        require(teleportPairsThereToHere_[_originalErc721Addr] == address(0x0), "pair already created");
 
-    function swapBscToEth(address _bscErc721Addr, uint256 _tokenId) payable external returns (bool) {
-        address msgSender = _msgSender();
+        TransparentUpgradeableProxy proxyToken = new TransparentUpgradeableProxy(wrappedErc721Implementation_, wrappedErc721ProxyAdmin_, "");
+        IProxyInitialize token = IProxyInitialize(address(proxyToken));
+        token.initialize(_name, _symbol, address(this));
         
-        if(!contractWhitelist[msgSender]) {
-            require(!_isContract(msgSender), "contract is not allowed to swap");
-            require(msgSender == tx.origin, "proxy is not allowed to swap");
+        wrappedErc721_[address(token)] = true;
+
+        teleportPairsThereToHere_[_originalErc721Addr] = address(token);
+        teleportPairsHereToThere_[address(token)] = _originalErc721Addr;
+
+        emit TeleportPairCreated(_otherChainRegisterTxHash, address(token), _originalErc721Addr, _symbol, _name);
+
+        return address(token);
+    }
+    
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes calldata /*_data*/) external override returns(bytes4) {
+        _ensureNotContract(_operator);
+        
+        address thisChainErc721Addr = _msgSender();
+        
+        require(fee_ == 0, "wrong teleport method");
+        require(_operator == _from, ERROR_CALLER_NOT_OWNER_OF_NFT);
+        
+        if(wrappedErc721_[thisChainErc721Addr]) {
+            _teleportWrappedStart(_operator, _from, thisChainErc721Addr, _tokenId, 0);
+        }
+        else {
+            _teleportOriginalStart(_from, thisChainErc721Addr, _tokenId, 0);
+        }
+
+        return RETURN_VALUE_ON_ERC721_RECEIVED;
+    }
+    
+    /* Running teleportation system check, 
+     * getting transmission/transportation clearance, 
+     * ensuring molecular security and departure/destination point safety.
+     * Before being teleported to the other side, NFTs are cryogenically frozen 
+     * in the present blockchain to ensure no actions can be performed 
+     * with the token during its new life within the other realm.
+     *
+     * > Performing full system check...
+     * > Cryofreezing...
+     *
+     */
+    function teleportOriginalStart(address _originalErc721Addr, uint256 _tokenId) payable external returns (bool) {
+        _ensureNotContract(_msgSender());
+        
+        require(msg.value == fee_, ERROR_FEE_MISMATCH);
+
+        IERC721Transfer(_originalErc721Addr).transferFrom(_msgSender(), address(this), _tokenId);
+
+        if (msg.value != 0) {
+            payable(owner()).transfer(msg.value);
         }
         
-        require(msg.value == swapFee, "fee mismatch");
+        _teleportOriginalStart(_msgSender(), _originalErc721Addr, _tokenId, msg.value);
         
-        address ethErc721Addr = swapsBscToEth[_bscErc721Addr];
-        require(ethErc721Addr != address(0x0), ERROR_TOKEN_PAIR_NOT_CREATED);
-
-        IERC721Transfer(_bscErc721Addr).safeTransferFrom(msgSender, address(this), _tokenId);
-        IToken(_bscErc721Addr).burn(msgSender, _tokenId);
+        return true;
+    }
+    
+    function _teleportOriginalStart(address _from, address _originalErc721Addr, uint256 _tokenId, uint256 _fee) private {
+        require(originalErc721_[_originalErc721Addr], ERROR_TOKEN_NOT_REGISTERED);
+        
+        string memory tokenUri;
+        
+        if(IERC165(_originalErc721Addr).supportsInterface(INTERFACE_ID_ERC_721_METADATA)) {
+            tokenUri = IERC721Metadata(_originalErc721Addr).tokenURI(_tokenId);
+        }
+        
+        emit TeleportOriginalStarted(_originalErc721Addr, _from, _tokenId, tokenUri, _fee);
+    }
+    
+    /* Disintegrating an NFT clone.
+     * Unfreezing of original NFT in the chamber on the other side. 
+     * “Everything is under control, we have no need for assistance.”
+     *
+     * > Initiating Praxis Explosion...
+     *
+     */
+    function teleportWrappedStart(address _wrappedErc721Addr, uint256 _tokenId) payable external returns (bool) {
+        require(msg.value == fee_, ERROR_FEE_MISMATCH);
 
         if (msg.value != 0) {
             payable(owner()).transfer(msg.value);
         }
 
-        emit SwapStarted(_bscErc721Addr, ethErc721Addr, msgSender, _tokenId, msg.value);
+        // *note* tx.origin is safe to use here because only whitelisted contracts allowed to call this function
+        _teleportWrappedStart(_msgSender(), tx.origin, _wrappedErc721Addr, _tokenId, msg.value);
+
+        return true;
+    }
+    
+    function _teleportWrappedStart(address _operator, address _from, address _wrappedErc721Addr, uint256 _tokenId, uint256 _fee) private {
+        if(!wrappedErc721_[_operator]) {
+            _ensureNotContract(_operator);
+        }
+        
+        address originalErc721Addr = teleportPairsHereToThere_[_wrappedErc721Addr];
+        require(originalErc721Addr != address(0x0), ERROR_TOKEN_PAIR_NOT_CREATED);
+
+        require(IERC721(_wrappedErc721Addr).ownerOf(_tokenId) == _from, ERROR_CALLER_NOT_OWNER_OF_NFT);
+        INftMintBurn(_wrappedErc721Addr).burn(_tokenId);
+
+        emit TeleportWrappedStarted(_wrappedErc721Addr, originalErc721Addr, _from, _tokenId, _fee);
+    }
+    
+    /* Molecular analysis, running simulations
+     * and final preparations and teleportation.
+     * Launching matter stream converter, enabling AI-powered oracle system,
+     * estimating gas range, finding the minimum price spread,
+     * and beaming tokens to the chamber on the other side.
+     *
+     * > Initializing transporter...
+     *
+     */
+    function teleportOriginalFill(bytes32 _otherChainTxHash, address _originalErc721Addr, address _toAddress, uint256 _tokenId, string calldata _tokenUri) onlyOwner external returns (bool) {
+        require(!filledTeleports_[_otherChainTxHash], ERROR_TELEPORT_TX_FILLED_ALREADY);
+        
+        address wrappedTokenAddr = teleportPairsThereToHere_[_originalErc721Addr];
+        require(wrappedTokenAddr != address(0x0), ERROR_TOKEN_PAIR_NOT_CREATED);
+        
+        filledTeleports_[_otherChainTxHash] = true;
+        INftMintBurn(wrappedTokenAddr).mintTo(_toAddress, _tokenId, _tokenUri);
+        
+        emit TeleportOriginalFilled(wrappedTokenAddr, _otherChainTxHash, _toAddress, _tokenId, _tokenUri);
+
+        return true;
+    }
+
+    /* Molecularl rematerializing of cryofrozen 
+     * NFT token in the present realm.
+     *
+     * > Reversing hibernation...
+     *
+     */
+    function teleportWrappedFill(bytes32 _otherChainTxHash, address _originalErc721Addr, address _toAddress, uint256 _tokenId) onlyOwner external returns (bool) {
+        require(!filledTeleports_[_otherChainTxHash], ERROR_TELEPORT_TX_FILLED_ALREADY);
+        require(originalErc721_[_originalErc721Addr], ERROR_TOKEN_NOT_REGISTERED);
+
+        filledTeleports_[_otherChainTxHash] = true;
+        IERC721Transfer(_originalErc721Addr).transferFrom(address(this), _toAddress, _tokenId);
+
+        emit TeleportWrappedFilled(_originalErc721Addr, _otherChainTxHash, _toAddress, _tokenId);
 
         return true;
     }
