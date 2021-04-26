@@ -59,10 +59,12 @@ You can edit PROVIDER_POOL_CFG constant in ./config.ts file in order to change t
 
 #### Specify values of deployed smart contracts in ./config.ts file.
 Following constants must be set:
+```
 ETH_TELEPORT_AGENT_CONTRACT_ADDRESS
 BSC_TELEPORT_AGENT_CONTRACT_ADDRESS
 ETH_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS
 BSC_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS
+```
 
 ### 5. Start web-service.
 Development configuration:
@@ -75,5 +77,5 @@ Production configuration:
 ```
 -npm install
 -npm run build:ssr
+-node index.js
 ```
-`-node index.js`
