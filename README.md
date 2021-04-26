@@ -16,7 +16,7 @@ All right, you lovelies, hold together!
 
 -----------------------------------------------------------------------------
 
-Getting started:
+## Getting started:
 
 1. Deploy NFT token contracts.
 This teleport works with any NFT token, that conforms to EIP-721 standart (https://eips.ethereum.org/EIPS/eip-721).
@@ -62,10 +62,10 @@ BSC_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS
 
 5. Start web-service.
 Development configuration:
--npm install
--npm run dev:ssr
+`-npm install`
+`-npm run dev:ssr`
 
 Production configuration:
--npm install
--npm run build:ssr
--node index.js
+`-npm install`
+`-npm run build:ssr`
+`-node index.js`
