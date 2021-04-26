@@ -19,15 +19,15 @@ All right, you lovelies, hold together!
 ## Getting started:
 
 ### 1. Deploy NFT token contracts.
-This teleport works with any NFT token, that conforms to EIP-721 standart (https://eips.ethereum.org/EIPS/eip-721).
+This teleport works with any NFT token, that conforms to [EIP-721 standart](https://eips.ethereum.org/EIPS/eip-721).
 But for the sake of simplicity we provide our own NFT token contracts, that you can deploy into testnets of Ethereum and Binance Smart Chain.
 
-Deploy ./smart-contracts/TestnetNft/ScottyBeam/ScottyBeam.sol
+Deploy `./smart-contracts/TestnetNft/ScottyBeam/ScottyBeam.sol`
 
 ### 2. Deploy teleport contracts.
 In both Ethereum and Binance Smart Chain you have to deploy following contracts:
-- ./smart-contracts/ERC721Implementation.sol - implementation of teleported/wrapped NFT tokens
-- ./smart-contracts/NftTeleportAgent.sol - agent for NFT teleportation
+- `./smart-contracts/ERC721Implementation.sol` - implementation of teleported/wrapped NFT tokens
+- `./smart-contracts/NftTeleportAgent.sol` - agent for NFT teleportation
 
 Pro tip:
 If you want to deploy one contract in different networks to the same address, you should know that
