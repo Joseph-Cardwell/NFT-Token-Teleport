@@ -1,6 +1,6 @@
 Aye there, human behind the electronic device!👋
 
-Scotty on the line. Where you may see a silly hamster,
+Scotty's on the line. Where you may see a silly hamster,
 others see a miracle worker, a captain by rank,
 and an engineer by calling.
 
