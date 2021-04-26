@@ -1,4 +1,4 @@
-Aye there, human behind the computer!👋
+Aye there, human behind the electronic device!👋
 
 Scotty on the line. Where you may see a silly hamster,
 others see a miracle worker, a captain by rank,
