@@ -1,0 +1,113 @@
+{
+    "COMMON": {
+        "LOADING": "Loading...",
+        "GAS-SELECTOR": {
+            "SLOW": "Slow",
+            "NORMAL": "Normal",
+            "FAST": "Fast"
+        },
+        "ACTION-STEPS": {
+            "PREPARING": "Preparing transaction...",
+            "WAIT-CONFIRMATION": "Waiting transaction confirmation...",
+            "PERFORMING": "Performing transaction...",
+            "CHECKING": "Checking transaction..."
+        },
+        "SMALL-BALANCE": {
+            "TITLE": "Not enought assets",
+            "DESCRIPTION": "You have not enought {{asset}} on your wallet"
+        }
+    },
+    "ALERTS": {
+        "METAMASK-WRONG-NETWORK": {
+            "TITLE": "Please change network",
+            "DESCRIPTION": "To continue please change blockchain network in your Crypto Wallet to {{network}}"
+        },
+        "WALLETCONNECT-WRONG-NETWORK": {
+            "TITLE": "Reconnection required",
+            "DESCRIPTION": "To continue Scotty needs to change blockchain. Please reconnect your crypto wallet",
+            "CHANGE": "Reconnect, Now!"
+        }
+    },
+    "WALLET": {
+        "NOT-CONNECTED": {
+            "DESCRIPTION": "Connect wallet, mate. Press the button",
+            "CONNECT-WALLET": "Connect Wallet"
+        },
+        "CONNECTION": {
+            "TITLE": "Connect Wallet",
+            "SELECT-PLATFORM": "Select default network",
+            "DESCRIPTION": "Select how should I connect to your crypto Wallet?",
+            "WALLET-CONNECT": "WalletConnect",
+            "METAMASK": "MetaMask",
+            "FAILED-TO-CONNECT": "Failed to connect. Try again later.",
+            "WRONG-NETWORK": {
+                "TITLE": "Info",
+                "DESCRIPTION": "Please change network in wallet"
+            }
+        },
+        "CONNECTED": {
+            "DESCRIPTION": "Wallet {{address}} successfully connected!",
+            "GO-TO-NFT": "Go to NFTs",
+            "DISCONNECT": "Disconnect Wallet"
+        }
+    },
+    "NFTS": {
+        "TITLE": "Your Precious NFTs",
+        "DESCRIPTION-FETCHING": "Fetching your NFT tokens... <b>{{count}}</b> located so far",
+        "DESCRIPTION": "You have <b>{{count}}</b> NFTs in your collection",
+        "NO-TOKENS": "No tokens",
+        "FAUCET": {
+            "GET-ETH": {
+                "BTN": "Get Free Ether NFTs",
+                "DESCRIPTION": "You will get 3 FREE ScottyBeam NFT tokens on Ethereum (Kovan) blockchain on your connected wallet"
+            },
+            "GET-BSC": {
+                "BTN": "Get Free BSC NFTs",
+                "DESCRIPTION": "You will get 3 FREE ScottyBeam NFT tokens on Binance Smart Chain (Test-net) on your connected wallet"
+            },
+            "TITLE": "Confirm Getting Free ScottyBeam NFTs?",
+            "SPEED": "Transaction speed",
+            "MODAL-DESCRIPTION": "",
+            "SUBMIT": "Confirm Transaction",
+            "SUCCESS": {
+                "TITLE": "Tokens Transfered",
+                "DESCRIPTION": "Scotty sent you free NFT tokens to your wallet",
+                "BTN": "Got It!"
+            }
+        }
+    },
+    "TELEPORT": {
+        "START-SWAP": "Beam It Up!",
+        "STEPS": "Step {{current_step}} of {{steps}}.",
+        "APPROVAL": {
+            "TITLE": "Confirm proceeding?",
+            "DESCRIPTION": "Shall we start pocedures for the beaming?",
+            "MODAL-DESCRIPTION": "",
+            "SPEED": "Procedure speed",
+            "SUBMIT": "Proceed"
+        },
+        "DESIGNATE": {
+            "TITLE": "Register teleport life-form?",
+            "DESCRIPTION": "This life-form is not yet registered in the teleport.",
+            "MODAL-DESCRIPTION": "",
+            "SPEED": "Registration speed",
+            "SUBMIT": "Register life-form!"
+        },
+        "SWAP": {
+            "TITLE": "Confirm proceeding?",
+            "DESCRIPTION": "Commander, I need your confirmation to start!",
+            "MODAL-DESCRIPTION": "",
+            "SPEED": "Beaming speed",
+            "SUBMIT": "I Confirm, Scotty!",
+            "CANCEL": "Cancel"
+        },
+        "SUCCESS": {
+            "DESCRIPTION": "We did, commander!"
+        },
+        "ERRORS": {
+            "INVALID-REQUEST": "Transaction cannot be composed.",
+            "BLOCKCHAIN-FAILED": "Failed by blockchain. Transaction cannot be composed.",
+            "FAILED-TX": "Action cannot be performed. "
+        }
+    }
+}

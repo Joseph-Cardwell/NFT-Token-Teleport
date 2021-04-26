@@ -1,0 +1,114 @@
+@import 'variables';
+
+.page-row {
+    height: 100%;
+    display: grid;
+}
+
+.portal-1 {
+    width: 262px;
+    position: relative;
+    margin-bottom: 16px;
+    z-index: 1;
+}
+
+.portal-1__img {
+    width: 100%;
+    height: auto;
+}
+
+.portal-1__platform {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    object-position: center;
+    object-fit: cover;
+}
+
+.portal-1__platform-img {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    box-shadow: 0px 4px 0px #7578ae;
+}
+
+.portal-2 {
+    width: 160px;
+    position: relative;
+    margin-bottom: 48px;
+}
+
+.portal-2__token-img-wrapper {
+    position: absolute;
+    bottom: 33px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 68px;
+    height: 68px;
+    --aug-tr: 12px;
+    --aug-bl: 12px;
+    --aug-border-all: 2px;
+    --aug-border-bg: #2C4575;
+    --aug-br: 6px;
+    --aug-tl: 6px;
+    background-color: #FFFFFF;
+}
+
+.portal-2__token-img {
+    object-position: center;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.portal-2__platform {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    object-position: center;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.portal-2__platform-img {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+}
+
+.portal-2__glow {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 25px;
+    width: 82%;
+    height: 80px;
+}
+
+.hamster-block {
+    position: absolute;
+    height: 250px;
+    width: 265px;
+    margin-bottom: 78px;
+    display: flex;
+    justify-content: flex-end;
+    top: 20px;
+    z-index: -1;
+    right: -70px;
+}
+
+img.hamster-img {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.hamster__dialog{
+    max-width: 100%;
+    position: absolute;
+    bottom: 200px;
+    right: 110px;
+}

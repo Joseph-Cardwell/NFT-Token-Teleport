@@ -1,0 +1,41 @@
+@import 'variables';
+
+.dialog {
+    position: relative;
+    padding: 16px 24px;
+    background-color: $bg-color--primary;
+    border: 3px solid $bg-color--secondary;
+    border-radius: 16px;
+    min-width: 280px;
+    max-width: 420px;
+}
+
+.close {
+    position: absolute;
+    padding: 8px;
+    cursor: pointer;
+    right: 14px;
+    top: 14px;
+    border-radius: 50%;
+    background-color: $bg-color--secondary;
+    width: 32px;
+    height: 32px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    padding: 0 32px 0 0;
+}
+
+.dialog__header {
+    margin-bottom: 16px;
+}
+
+@media (hover: hover) {
+    .close:hover {
+        filter: brightness(1.1);
+    }
+}

@@ -1,0 +1,135 @@
+@import "./fonts.scss";
+@import "./variables.scss";
+
+* {
+    box-sizing: border-box;
+    font-family: "Bai Jamjuree", sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: $bg-color--primary;
+    min-height: 100%;
+    margin: 0;
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+    margin: 0;
+}
+
+.link {
+    color: inherit;
+}
+
+.btn {
+    background-color: $button-bg-color;
+    padding: 0 16px 0 16px;
+    max-width: 220px;
+    width: 100%;
+    font-size: 20px;
+    color: $button-text-color;
+    font-weight: 600;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: 'Bai Jamjuree', sans-serif;
+    line-height: 1;
+    border-radius: 6px;
+    --aug-tr: 16px;
+    --aug-bl: 16px;
+}
+
+.btn--size-s {
+    height: 36px;
+    --aug-tr: 12px;
+    --aug-bl: 12px;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.btn:disabled {
+    filter: brightness(0.7);
+}
+
+.btn--processing {
+    cursor: wait;
+}
+
+.text {
+    font-weight: 500;
+    line-height: 1.24;
+    color: $text-color-primary;
+    font-size: 18px;
+}
+
+.text--size-s {
+    font-size: 14px;
+}
+
+.text--color-secondary {
+    color: $text-color-secondary;
+}
+
+.text--color-error {
+    color: $text-color-error;
+}
+
+.text--center {
+    text-align: center;
+}
+
+.title {
+    font-weight: 600;
+    color: $title-color-primary;
+    font-size: 20px;
+    line-height: 1.32;
+}
+
+.title--size-s {
+    font-size: 16px;
+}
+
+.title--color-secondary {
+    color: $title-color-secondary;
+}
+
+.page-row {
+    padding: 0 24px;
+}
+
+.page-row--vertical-center {
+    display: grid;
+    align-content: center;
+}
+
+.relative {
+    position: relative;
+}
+
+.wrapper--center {
+    display: grid;
+    justify-items: center;
+}
+
+@media (hover:hover)
+{
+    .btn:not(:disabled):hover {
+        filter: brightness(1.1);
+    }
+}

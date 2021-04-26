@@ -1,0 +1,25 @@
+<div class="page-row">
+    <h2 class="title title--color-secondary" [innerHTML]='"NFTS.TITLE" | translate'></h2>
+    <p *ngIf='state === "loading"' style='margin-top: 4px;' class="text text--size-s" [innerHTML]='"NFTS.DESCRIPTION-FETCHING" | translate: {count: tokensCount}'></p>
+    <p *ngIf='state === "loaded"' style='margin-top: 4px;' class="text text--size-s" [innerHTML]='"NFTS.DESCRIPTION" | translate: {count: tokensCount}'></p>
+
+    <p *ngIf='state === "loading"' style='margin-top: 24px;' class="text text--size-s text--center" [innerHTML]='"COMMON.LOADING" | translate'></p>
+    
+    <ul *ngIf='tokens.length > 0 && state === "loaded"' style='margin-top: 16px;' class="tokens-list" >
+        <li data-augmented-ui="tr-clip bl-clip border tl-round br-round" *ngFor='let token of tokens' class="token-item" (click)='teleport(token)'>
+            <img [src]="token.tokenURI" (error)="parseImgUrl($event, token)" [alt]="token.name + ' ' + token.tokenId" class="token-item__img" [title]="token.name + ' ' + token.tokenId">
+            <img src="/assets/images/logos/logo__{{token.platform}}.svg" [alt]="token.platform" class="token-item__platform">
+        </li>
+    </ul>
+    <div class="faucet" *ngIf='!!isFaucetAllowed'>
+        <div class="faucet-item" *ngIf='isFaucetAllowed.ethereum'>
+            <button (click)='faucetTokens("ethereum")' data-augmented-ui="tr-clip bl-clip" [disabled]='processingFaucet' [class.btn--processing]='processingFaucet' class="btn faucet__btn">{{"NFTS.FAUCET.GET-ETH.BTN" | translate}}</button>
+            <p style='margin-top: 8px;' class="text text--size-s" [innerHTML]='"NFTS.FAUCET.GET-ETH.DESCRIPTION" | translate'></p>
+        </div>
+        <div class="faucet-item" *ngIf='isFaucetAllowed.bsc'>
+            <button (click)='faucetTokens("bsc")' data-augmented-ui="tr-clip bl-clip" [disabled]='processingFaucet' [class.btn--processing]='processingFaucet' class="btn faucet__btn">{{"NFTS.FAUCET.GET-BSC.BTN" | translate}}</button>
+            <p style='margin-top: 8px;' class="text text--size-s" [innerHTML]='"NFTS.FAUCET.GET-BSC.DESCRIPTION" | translate'></p>
+        </div>
+    </div>
+</div>
+<app-nfts-faucet *ngIf='showFaucetTokens' [platform]='faucetPlatform' [faucet-tx]='faucetTx' (close)='hideFaucet($event)'></app-nfts-faucet>

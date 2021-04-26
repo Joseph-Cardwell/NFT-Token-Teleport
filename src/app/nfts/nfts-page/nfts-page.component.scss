@@ -1,0 +1,85 @@
+@import "variables";
+
+.tokens-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 128px);
+    grid-template-rows: repeat(auto-fill, 128px);
+    column-gap: 24px;
+    row-gap: 24px;
+    justify-content: start;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.token-item {
+    height: 128px;
+    width: 128px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    --aug-tr: 12px;
+    --aug-bl: 12px;
+    --aug-border-all: 2px;
+    --aug-border-bg: #2C4575;
+    --aug-br: 6px;
+    --aug-tl: 6px;
+}
+
+.token-item__img {
+    width: 100%;
+    height: auto;
+}
+
+.token-item__platform {
+    width: 32px;
+    height: 32px;
+    border: 2px solid $bg-color--secondary;
+    border-radius: 6px 0 6px 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #ffffff;
+}
+
+.faucet-item {
+    margin-top: 32px;
+}
+
+.faucet__btn {
+    max-width: 240px;
+}
+
+@media (hover: hover) {
+    .token-item {
+        filter: brightness(1.1);
+    }
+}
+
+@media (max-width: 470px) {
+    .tokens-list {
+        grid-template-columns: repeat(auto-fill, 90px);
+        grid-template-rows: repeat(auto-fill, 90px);
+        column-gap: 8px;
+        row-gap: 8px;
+    }
+
+    .token-item {
+        height: 90px;
+        width: 90px;
+    }
+}
+
+@media (max-width: 350px) {
+    .tokens-list {
+        grid-template-columns: repeat(auto-fill, 80px);
+        grid-template-rows: repeat(auto-fill, 80px);
+        column-gap: 8px;
+        row-gap: 8px;
+    }
+
+    .token-item {
+        height: 80px;
+        width: 80px;
+    }
+}

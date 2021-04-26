@@ -1,0 +1,5 @@
+<div class="alert" [class.alert--visible]='visible' (click)='hide($event)'>
+    <app-modal-dialog [modal-title]='title | translate: params' (close)='hide()' (click)='$event.stopPropagation();'>
+        <p class="text text--center" [innerHTML]='message | translate: params'></p>
+    </app-modal-dialog>
+</div>

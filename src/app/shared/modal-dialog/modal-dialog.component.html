@@ -1,0 +1,14 @@
+<div class="dialog">
+    <header class="dialog__header">
+        <h3 class="title dialog__title" [innerHTML]='title | translate'></h3>
+        <span class="close" (click)='close.emit()'>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 2L10 10" stroke="white" stroke-width="3"/>
+                <path d="M10 2L2 10" stroke="white" stroke-width="3"/>
+            </svg>                
+        </span>
+    </header>
+    <main class="dialog__content">
+        <ng-content></ng-content>
+    </main>
+</div>

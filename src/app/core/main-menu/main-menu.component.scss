@@ -1,0 +1,33 @@
+@import 'variables';
+.nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: $bg-color--primary;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    column-gap: 48px;
+}
+
+.nav__link {
+    cursor: pointer;
+    color: $menu-item-color;
+}
+
+.nav__link-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.nav__link--active {
+    color: $menu-item-color-active;
+}
+
+.nav__link--disabled {
+    filter: brightness(0.4);
+    pointer-events: none;
+}

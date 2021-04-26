@@ -1,0 +1,43 @@
+<div class="alert alert--visible" (click)='hide($event)'>
+    <app-modal-dialog [modal-title]='title | translate' (close)='hide()'
+        (click)='$event.stopPropagation();'>
+        <ng-container *ngIf='!complete'>
+            <p *ngIf='platform === "bsc"' class="text text--center"
+                [innerHTML]='"NFTS.FAUCET.MODAL-DESCRIPTION" | translate'>
+            </p>
+
+            <div *ngIf='platform === "ethereum"'>
+                <p style='margin-bottom: 8px;' class="text text--size-s text--color-secondary speed">{{"NFTS.FAUCET.SPEED" | translate}}</p>
+                <app-gas-price-selector (gas-change)='gasChanged($event)' [tx-data]='faucetTx'>
+                </app-gas-price-selector>
+            </div>
+
+            <div class="wrapper--center" style='margin-top: 16px;'>
+                <button data-augmented-ui="tr-clip bl-clip" [disabled]='processing' [class.btn--processing]='processing'
+                    class="btn btn--size-s" (click)='approve()'>{{"NFTS.FAUCET.SUBMIT" | translate}}</button>
+            </div>
+            <div style='margin-top: 16px;' *ngIf='processing'>
+                <p *ngIf='step === "preparing"' class="text text--center text--size-s text--color-secondary">
+                    {{"COMMON.ACTION-STEPS.PREPARING" | translate}}</p>
+                <p *ngIf='step === "confirmation"' class="text text--center text--size-s text--color-secondary">
+                    {{"COMMON.ACTION-STEPS.WAIT-CONFIRMATION" | translate}}</p>
+                <p *ngIf='step === "performing"' class="text text--center text--size-s text--color-secondary">
+                    {{"COMMON.ACTION-STEPS.PERFORMING" | translate}}</p>
+                <p *ngIf='step === "checking"' class="text text--center text--size-s text--color-secondary">
+                    {{"COMMON.ACTION-STEPS.CHECKING" | translate}}</p>
+            </div>
+            <p *ngIf='error' style='margin-top: 16px;' class="text text--size-s text--color-error text--center">
+                {{error.message | translate: (error.params)}}
+            </p>
+        </ng-container>
+        <ng-container *ngIf='complete'>
+            <p class="text text--center" [innerHTML]='"NFTS.FAUCET.SUCCESS.DESCRIPTION" | translate'>
+            </p>
+            <div class="wrapper--center" style='margin-top: 16px;'>
+
+                <button data-augmented-ui="tr-clip bl-clip" [disabled]='processing' [class.btn--processing]='processing'
+                    class="btn btn--size-s" (click)='hide()'>{{"NFTS.FAUCET.SUCCESS.BTN" | translate}}</button>
+            </div>
+        </ng-container>
+    </app-modal-dialog>
+</div>

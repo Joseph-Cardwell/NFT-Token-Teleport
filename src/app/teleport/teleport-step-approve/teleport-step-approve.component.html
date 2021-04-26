@@ -1,0 +1,44 @@
+<div class="page-row page-row--vertical-center">
+    <div class="relative">
+        <div class="wrapper--center">
+            <div class="hamster-block">
+                <img src="/assets/images/hamster/hamster__action.svg" alt="" class="hamster-img">
+                <app-text-dialog class='hamster__dialog' modal-border-radius='11px 11px 11px 0'>
+                    {{"TELEPORT.APPROVAL.DESCRIPTION" | translate}}
+                </app-text-dialog>
+            </div>
+        </div>
+    
+        <div class="wrapper--center transaction-dialog">
+            <app-modal-dialog *ngIf='teleportState'
+                [modal-title]='getTitle()' (close)='close()'>
+    
+                <p 
+                    *ngIf='teleportState.token.platform === "bsc"'
+                    class="text text--center"
+                    [innerHTML]='"TELEPORT.APPROVAL.MODAL-DESCRIPTION" | translate'
+                    >
+                </p>
+    
+                <div *ngIf='teleportState.token.platform === "ethereum"'>
+                    <p class="text text--size-s text--color-secondary speed">{{"TELEPORT.APPROVAL.SPEED" | translate}}</p>
+                    <app-gas-price-selector (gas-change)='gasChanged($event)' [tx-data]='teleportState.approvalTx'></app-gas-price-selector>
+                </div>
+    
+                <div class="wrapper--center" style='margin-top: 16px;'>
+                    <button data-augmented-ui="tr-clip bl-clip" [disabled]='processing' [class.btn--processing]='processing' class="btn btn--size-s"
+                        (click)='approve()'>{{"TELEPORT.APPROVAL.SUBMIT" | translate}}</button>
+                </div>
+                <div style='margin-top: 16px;' *ngIf='processing'>
+                    <p *ngIf='step === "preparing"' class="text text--center text--size-s text--color-secondary">{{"COMMON.ACTION-STEPS.PREPARING" | translate}}</p>
+                    <p *ngIf='step === "confirmation"' class="text text--center text--size-s text--color-secondary">{{"COMMON.ACTION-STEPS.WAIT-CONFIRMATION" | translate}}</p>
+                    <p *ngIf='step === "performing"' class="text text--center text--size-s text--color-secondary">{{"COMMON.ACTION-STEPS.PERFORMING" | translate}}</p>
+                    <p *ngIf='step === "checking"' class="text text--center text--size-s text--color-secondary">{{"COMMON.ACTION-STEPS.CHECKING" | translate}}</p>
+                </div>
+                <p *ngIf='error' style='margin-top: 16px;' class="text text--size-s text--color-error text--center">
+                    {{error.message | translate: (error.params)}}
+                </p>
+            </app-modal-dialog>
+        </div>
+    </div>
+</div>

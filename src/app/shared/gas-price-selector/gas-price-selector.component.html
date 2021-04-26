@@ -1,0 +1,32 @@
+<div class="gas-selector" *ngIf='feeOracles'>
+    <div 
+        class="gas-selector__item" 
+        [class.gas-selector__item--selected]='currentOracle === "slow"' 
+        (click)='selectFeeOracle("slow")'
+        >
+        <button class="bullet">
+            {{'COMMON.GAS-SELECTOR.SLOW' | translate}}
+        </button>
+        <p class="text text--center fee">{{feeOracles.slow.baseCurrencyValue | numberParser: 8: 5}} ETH</p>
+    </div>
+    <div 
+        class="gas-selector__item" 
+        [class.gas-selector__item--selected]='currentOracle === "normal"' 
+        (click)='selectFeeOracle("normal")'
+        >
+        <button class="bullet">
+            {{'COMMON.GAS-SELECTOR.NORMAL' | translate}}
+        </button>
+        <p class="text text--center fee">{{feeOracles.normal.baseCurrencyValue | numberParser: 8: 5}} ETH</p>
+    </div>
+    <div 
+        class="gas-selector__item" 
+        [class.gas-selector__item--selected]='currentOracle === "fast"' 
+        (click)='selectFeeOracle("fast")'
+        >
+        <button class="bullet">
+            {{'COMMON.GAS-SELECTOR.FAST' | translate}}
+        </button>
+        <p class="text text--center fee">{{feeOracles.fast.baseCurrencyValue | numberParser: 8: 5}} ETH</p>
+    </div>
+</div>

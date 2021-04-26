@@ -1,0 +1,74 @@
+<div class="page-row page-row--vertical-center">
+    <div *ngIf='!connectionState && state === "default"' class="content">
+        <div class="wrapper--center">
+            <div class="hamster-dialog hamster-dialog__wallet-connect">
+                <img src="/assets/images/hamster/hamster__connect-wallet.svg" alt="" class="hamster walelt-connect__hamster-img">
+                <app-text-dialog class='connect-wallet__dialog' modal-border-radius='11px 11px 11px 0'>
+                    {{"WALLET.NOT-CONNECTED.DESCRIPTION" | translate}}
+                </app-text-dialog>
+            </div>
+        </div>
+        <div class="wrapper--center">
+            <button data-augmented-ui="tr-clip bl-clip" class="btn" (click)='showWalletConnection()'>{{"WALLET.NOT-CONNECTED.CONNECT-WALLET" | translate}}</button>
+        </div>
+    </div>
+    <div *ngIf='connectionState && state === "default"' class="content">
+        <div class="wrapper--center">
+            <div class="hamster-dialog hamster-dialog__wallet-connected">
+                <img src="/assets/images/hamster/hamster__action.svg" alt="" class="hamster wallet-connected__hamster-img">
+                <app-text-dialog class='connected-wallet__dialog' modal-border-radius='11px 11px 11px 0'>
+                    {{"WALLET.CONNECTED.DESCRIPTION" | translate: ({address: (walletAddress | addressShorter: 5: 7)})}}
+                </app-text-dialog>
+                <div class="disconnection">
+                    <svg (click)='disconnectWallet()' class='disconnection__btn' viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 26.6814V6C1 3.23857 3.23858 1 6 1H26.6814C28.0075 1 29.2792 1.52679 30.2169 2.46447L37.5355 9.78313C38.4732 10.7208 39 11.9926 39 13.3187V34C39 36.7614 36.7614 39 34 39H13.3187C11.9926 39 10.7208 38.4732 9.78314 37.5355L2.46448 30.2169C1.52679 29.2792 1 28.0075 1 26.6814Z" stroke="#90B6FF" stroke-width="2"/>
+                        <path d="M14 14L26 26" stroke="#90B6FF" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M26 14L14 26" stroke="#90B6FF" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                        
+                    <p class="text text--center">{{"WALLET.CONNECTED.DISCONNECT" | translate}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper--center">
+            <a data-augmented-ui="tr-clip bl-clip" routerLink='/nfts' class="btn btn-link">{{"WALLET.CONNECTED.GO-TO-NFT" | translate}}</a>
+        </div>
+    </div>
+    <div *ngIf='state === "connecting"' class="content">
+        <div class="wrapper--center">
+            <div class="hamster-dialog hamster-dialog__wallet-connecting">
+                <img src="/assets/images/hamster/hamster__action.svg" alt="" class="hamster wallet-connecting__hamster-img">
+                <app-text-dialog class='connecting-wallet__dialog' modal-border-radius='11px 11px 0 11px'>
+                    {{"WALLET.CONNECTION.DESCRIPTION" | translate}}
+                </app-text-dialog>
+            </div>
+        </div>
+        <div class="wrapper--center connection-modal-dialog">
+            <app-modal-dialog modal-title='WALLET.CONNECTION.TITLE' (close)='cancelConnectWallet()'>
+                <p style='margin-bottom: 8px;' class="text text--size-s text--color-secondary text--center">{{'WALLET.CONNECTION.SELECT-PLATFORM' | translate}}</p>
+                <div class="platform-selector__wrapper">
+                    <button (click)='selectPlatform("ethereum")' class="platform-selector__item" [class.platform-selector__item--selected]='selectedPlatform === "ethereum"'>
+                        <img src="/assets/images/logos/logo__ethereum.svg" alt="Ethereum" class="platform-selector__item-icon">
+                    </button>
+                    <button (click)='selectPlatform("bsc")' class="platform-selector__item" [class.platform-selector__item--selected]='selectedPlatform === "bsc"'>
+                        <img src="/assets/images/logos/logo__bsc.svg" alt="BSC" class="platform-selector__item-icon">
+                    </button>
+                </div>
+                <div class="wrapper--center">
+                    <button (click)='connectWallet("walletconnect")' class="connect-btn" *ngIf='connectors.includes("walletconnect")'>
+                        <span class='title title--size-s'>{{'WALLET.CONNECTION.WALLET-CONNECT' | translate}}</span>
+        
+                        <img src="/assets/images/logos/logo__wallet-connect.svg" alt="WalletConnect" class="conntect-btn__icon">
+                    </button>
+                    <button (click)='connectWallet("metamask")' class="connect-btn" *ngIf='connectors.includes("metamask")'>
+                        <span class='title title--size-s'>{{'WALLET.CONNECTION.METAMASK' | translate}}</span>
+        
+                        <img src="/assets/images/logos/logo__metamask.svg" alt="MetaMask" class="conntect-btn__icon">
+                    </button>
+                </div>
+                <p *ngIf='connectionError' class="text text--size-s text--color-error text--center connection-error">{{'WALLET.CONNECTION.FAILED-TO-CONNECT' | translate}}</p>
+            </app-modal-dialog>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<nav class="page-row nav">
+    <a routerLink='/wallet' routerLinkActive='nav__link--active' class="nav__link">
+        <svg class='nav__link-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M5 10H24C25.6569 10 27 11.3431 27 13V22C27 23.6569 25.6569 25 24 25H8C6.34315 25 5 23.6569 5 22V10Z"
+                fill="currentColor" />
+            <path d="M6 11H22V9C22 7.89543 21.1046 7 20 7H9C7.34315 7 6 8.34315 6 10V11Z" stroke="currentColor"
+                stroke-width="2" />
+        </svg>
+    </a>
+    <a routerLink='/nfts' class="nav__link" routerLinkActive='nav__link--active' [class.nav__link--disabled]='!connectionState'>
+        <svg class='nav__link-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="6" width="8" height="8" rx="2" fill="currentColor" />
+            <rect x="6" y="18" width="8" height="8" rx="2" fill="currentColor" />
+            <rect x="18" y="6" width="8" height="8" rx="2" fill="currentColor" />
+            <rect x="18" y="18" width="8" height="8" rx="2" fill="currentColor" />
+        </svg>
+    </a>
+    <a routerLink='/teleport' class="nav__link" routerLinkActive='nav__link--active' [class.nav__link--disabled]='!connectionState'>
+        <svg class='nav__link-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="16" cy="25" rx="12" ry="3" fill="currentColor" />
+            <ellipse cx="16" cy="6" rx="9" ry="2" fill="currentColor" />
+            <path
+                d="M15.1863 10.1392C15.5851 9.58088 16.4149 9.58088 16.8137 10.1392L19.8705 14.4188C20.3433 15.0806 19.8702 16 19.0568 16H12.9432C12.1298 16 11.6567 15.0806 12.1295 14.4188L15.1863 10.1392Z"
+                fill="currentColor" />
+            <rect x="14" y="15" width="4" height="5" rx="1" fill="currentColor" />
+        </svg>
+    </a>
+</nav>

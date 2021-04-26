@@ -1,0 +1,8 @@
+<div class="alert" [class.alert--visible]='visible' (click)='hide($event)'>
+    <app-modal-dialog [modal-title]='title | translate: params' (close)='hide()' (click)='$event.stopPropagation();'>
+        <p class="text text--center" [innerHTML]='message | translate: params'></p>
+        <div style="margin-top: 16px;" class="wrapper--center">
+            <button data-augmented-ui="tr-clip bl-clip" class="btn btn--size-s" (click)='change()'>{{'ALERTS.WALLETCONNECT-WRONG-NETWORK.CHANGE' | translate}}</button>
+        </div>
+    </app-modal-dialog>
+</div>

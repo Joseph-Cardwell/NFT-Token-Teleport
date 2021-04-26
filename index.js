@@ -1,0 +1,1 @@
+require('./dist/scotty-beam-app/server/main');

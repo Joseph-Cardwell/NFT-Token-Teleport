@@ -1,0 +1,15 @@
+@import '../common';
+
+.hamster-block {
+    justify-content: flex-end;
+}
+
+.hamster-img {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.hamster__dialog{
+    right: 120px;
+    left: unset;
+}

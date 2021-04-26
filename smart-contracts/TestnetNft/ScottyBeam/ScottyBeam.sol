@@ -220,13 +220,47 @@ contract ScottyBeam is Ownable, IERC165, IERC721, IERC721Metadata, IERC721Enumer
     mapping(uint256 => uint256) private ownedTokensIndex_; // Mapping from token ID to index of the owner tokens list
     uint256[] private allTokens_; // Array with all token ids, used for enumeration
     mapping(uint256 => uint256) private allTokensIndex_; // Mapping from token id to position in the allTokens array
-
-    constructor(string memory _name, string memory _symbol, address _owner) {
+    string[] private freeNftUris_;
+    mapping(address => bool) freeNftGiven_;
+    
+    
+    string private constant ERROR_CALLER_NOT_OWNER_NOR_APPROVED = "ERC721: transfer caller is not owner nor approved";
+    
+    constructor(string memory _name, string memory _symbol, address _owner, string[] memory _freeNftUris) {
         require(_owner != address(0), "ERC721: owner cannot be zero address");
         name_ = _name;
         symbol_ = _symbol;
         owner_ = _owner;
+        freeNftUris_ = _freeNftUris;
         emit OwnershipTransferred(address(0), _owner);
+    }
+    
+    function canGetFreeNft(address _recipient) external view returns (bool) {
+        return !freeNftGiven_[_recipient];
+    }
+    
+    function mintFreeNft() external {
+        address msgSender = _msgSender();
+        
+        require(freeNftUris_.length > 0, "no free NFTs available");
+        require(!freeNftGiven_[msgSender], "free NFTs already given");
+        
+        freeNftGiven_[msgSender] = true;
+        
+        uint256 tokenId = totalSupply();
+        
+        for(uint32 i = 0; i < freeNftUris_.length; ++i) {
+            while(_exists(tokenId)) {
+                ++tokenId;
+            }
+            
+            _safeMint(msgSender, tokenId);
+            _setTokenURI(tokenId, freeNftUris_[i]);
+        }
+    }
+    
+    function setFreeNftUris(string[] memory _freeNftUris) external onlyOwner {
+        freeNftUris_ = _freeNftUris;
     }
 
     function name() external view virtual override returns (string memory) {
@@ -261,7 +295,7 @@ contract ScottyBeam is Ownable, IERC165, IERC721, IERC721Metadata, IERC721Enumer
     }
     
     function transferFrom(address _from, address _to, uint256 _tokenId) external payable virtual override {
-        require(_isApprovedOrOwner(_msgSender(), _tokenId), "ERC721: transfer caller is not owner nor approved");
+        require(_isApprovedOrOwner(_msgSender(), _tokenId), ERROR_CALLER_NOT_OWNER_NOR_APPROVED);
 
         _transfer(_from, _to, _tokenId);
     }
@@ -305,7 +339,9 @@ contract ScottyBeam is Ownable, IERC165, IERC721, IERC721Metadata, IERC721Enumer
         return true;
     }
 
-    function burn(uint256 _tokenId) external onlyOwner returns (bool) {
+    function burn(uint256 _tokenId) external returns (bool) {
+        require(_isApprovedOrOwner(_msgSender(), _tokenId), ERROR_CALLER_NOT_OWNER_NOR_APPROVED);
+        
         address owner = ownerOf(_tokenId);
 
         _beforeTokenTransfer(owner, address(0), _tokenId);
@@ -375,7 +411,7 @@ contract ScottyBeam is Ownable, IERC165, IERC721, IERC721Metadata, IERC721Enumer
     }
     
     function _safeTransfer(address _from, address _to, uint256 _tokenId, bytes memory _data) internal virtual {
-        require(_isApprovedOrOwner(_msgSender(), _tokenId), "ERC721: transfer caller is not owner nor approved");
+        require(_isApprovedOrOwner(_msgSender(), _tokenId), ERROR_CALLER_NOT_OWNER_NOR_APPROVED);
         _transfer(_from, _to, _tokenId);
         require(_checkOnERC721Received(_from, _to, _tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
     }

@@ -1,0 +1,84 @@
+<svg width="232" height="230" viewBox="0 0 232 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="platform 1">
+        <g id="vec">
+            <path d="M221.825 212.759C222.196 211.341 221.376 210.924 220.513 210.037C212.502 201.809 168.76 175.519 116 175.519C63.2403 175.519 19.4983 201.809 11.4871 210.037C10.6238 210.924 9.53061 210.346 10.1754 212.759C16 220 57.5547 230 116 230C174.445 230 216.049 221 221.825 212.759Z" fill="#8891C4" />
+            <path d="M116 161C174.445 161 230.255 168.234 230.255 177.756V180.548L221.825 212.759C222.196 211.341 221.376 210.924 220.513 210.037C212.502 201.809 168.76 175.519 116 175.519C63.2403 175.519 19.4983 201.809 11.4871 210.037C10.6238 210.924 9.53061 210.346 10.1754 212.759L1.46875 180.18L3.3431 177.579C3.3431 168.057 57.5547 161 116 161Z" fill="#8891C4" />
+        </g>
+        <path id="vec_2" d="M1 179.3L10.1754 212.759C12.4588 215.598 20.2331 218.86 32.3635 221.778L23.6727 168.129C11.0048 170.768 3.3431 173.999 3.3431 177.579L1 179.3Z" fill="#525D9A" />
+        <path id="vec_3" d="M231.1 179L221.825 212.759C219.688 215.656 212.134 219.649 199.438 222.21L208.327 168.129C220.995 170.768 228.657 173.999 228.657 177.579L231.1 179Z" fill="#7578AE" />
+        <ellipse id="vec_4" cx="116" cy="178" rx="115.292" ry="18.884" fill="#9294BF" />
+        <path id="vec_5" d="M230.792 178C230.792 179.082 230.123 180.226 228.637 181.415C227.158 182.599 224.947 183.763 222.051 184.884C216.264 187.125 207.861 189.153 197.443 190.859C176.613 194.271 147.818 196.384 116 196.384C84.1815 196.384 55.3869 194.271 34.5573 190.859C24.1385 189.153 15.7358 187.125 9.94912 184.884C7.05319 183.763 4.84175 182.599 3.36314 181.415C1.87728 180.226 1.20837 179.082 1.20837 178C1.20837 176.918 1.87728 175.774 3.36314 174.585C4.84175 173.401 7.05319 172.237 9.94912 171.116C15.7358 168.875 24.1385 166.847 34.5573 165.14C55.3869 161.729 84.1815 159.616 116 159.616C147.818 159.616 176.613 161.729 197.443 165.14C207.861 166.847 216.264 168.875 222.051 171.116C224.947 172.237 227.158 173.401 228.637 174.585C230.123 175.774 230.792 176.918 230.792 178Z" stroke="#8183AC" />
+        <path id="vec_6" d="M115.998 191C176.749 191 225.996 182.957 225.996 173.036V169.333C225.996 169.333 225.53 169.276 224.633 170.2C216.306 178.773 170.839 185.327 115.998 185.327C61.1577 185.327 15.6906 178.773 7.36342 170.2C6.46606 169.276 6 169.333 6 169.333V173.036C6 182.957 55.2479 191 115.998 191Z" fill="url(#paint0_radial)" />
+        <g id="vec_7">
+            <path d="M216.347 155.467C216.347 156.351 215.922 157.22 215.104 158.067C207.507 165.926 166.028 171.933 115.998 171.933C65.9683 171.933 24.4895 165.926 16.8928 158.067C16.0741 157.22 15.649 156.351 15.649 155.467C15.649 146.372 60.5768 139 115.998 139C171.42 139 216.347 146.372 216.347 155.467Z" fill="url(#paint1_radial)" />
+            <path d="M115.998 185.8C171.42 185.8 225.996 178.428 225.996 169.333L216.347 155.467C216.347 156.351 215.922 157.22 215.104 158.067C207.507 165.926 166.028 171.933 115.998 171.933C65.9683 171.933 24.4895 165.926 16.8928 158.067C16.0741 157.22 15.649 156.351 15.649 155.467L6 169.333C6 178.428 60.5768 185.8 115.998 185.8Z" fill="url(#paint2_radial)" />
+        </g>
+        <path id="vec_8" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M77.4023 184.5L82.2268 170.2L66.2127 169.333L57.1395 183.2L77.4023 184.5Z" fill="white" />
+        <path id="vec_9" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M183.058 182.333L179.199 168.033L216.347 155.467L225.996 169.333C225.996 169.333 226.479 172.367 216.347 175.833C206.216 179.3 183.058 182.333 183.058 182.333Z" fill="#7C7F9F" />
+        <path id="vec_10" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M183.541 187.1L183.058 182.333C183.058 182.333 199.462 180.167 212.005 177.133C224.549 174.1 225.996 169.333 225.996 169.333V173.667C225.996 173.667 225.996 177.133 215.865 180.6C205.734 184.067 183.541 187.1 183.541 187.1Z" fill="#7C7F9F" />
+        <path id="vec_11" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M49.4203 182.333L58.5868 168.467L52.7974 167.6L41.2187 181.033L49.4203 182.333Z" fill="white" />
+        <path id="vec_12" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M48.9378 187.533L49.4203 182.333L41.2187 181.033L40.7362 186.233L48.9378 187.533Z" fill="white" />
+        <path id="vec_13" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M77.4023 190.133V184.5L57.1395 183.2L56.1746 188.4L77.4023 190.133Z" fill="white" />
+        <ellipse id="vec_14" cx="115.998" cy="155.467" rx="100.349" ry="16.4667" fill="url(#paint3_radial)" />
+        <g id="glow">
+            <g id="lines" filter="url(#filter0_d)">
+                <path d="M209.5 154.5C209.5 155.266 208.996 156.114 207.789 157.023C206.594 157.924 204.8 158.814 202.442 159.674C197.73 161.393 190.885 162.949 182.392 164.259C165.413 166.878 141.94 168.5 116 168.5C90.06 168.5 66.5867 166.878 49.6082 164.259C41.115 162.949 34.2695 161.393 29.5583 159.674C27.1998 158.814 25.4058 157.924 24.2107 157.023C23.0042 156.114 22.5 155.266 22.5 154.5C22.5 153.734 23.0042 152.886 24.2107 151.977C25.4058 151.076 27.1998 150.186 29.5583 149.326C34.2695 147.607 41.115 146.051 49.6082 144.741C66.5867 142.122 90.06 140.5 116 140.5C141.94 140.5 165.413 142.122 182.392 144.741C190.885 146.051 197.73 147.607 202.442 149.326C204.8 150.186 206.594 151.076 207.789 151.977C208.996 152.886 209.5 153.734 209.5 154.5Z" stroke="white" />
+            </g>
+            <g id="lines_2" opacity="0.5" filter="url(#filter1_d)">
+                <path d="M188.5 154.5C188.5 155.063 188.137 155.709 187.212 156.421C186.297 157.126 184.916 157.827 183.089 158.508C179.441 159.866 174.134 161.099 167.541 162.138C154.363 164.214 136.141 165.5 116 165.5C95.8593 165.5 77.6366 164.214 64.459 162.138C57.8663 161.099 52.5591 159.866 48.9112 158.508C47.0845 157.827 45.7034 157.126 44.7881 156.421C43.863 155.709 43.5 155.063 43.5 154.5C43.5 153.937 43.863 153.291 44.7881 152.579C45.7034 151.874 47.0845 151.173 48.9112 150.492C52.5591 149.134 57.8663 147.901 64.459 146.862C77.6366 144.786 95.8593 143.5 116 143.5C136.141 143.5 154.363 144.786 167.541 146.862C174.134 147.901 179.441 149.134 183.089 150.492C184.916 151.173 186.297 151.874 187.212 152.579C188.137 153.291 188.5 153.937 188.5 154.5Z" stroke="white" />
+            </g>
+            <g id="lines_3" opacity="0.25" filter="url(#filter2_d)">
+                <path d="M168.5 154.5C168.5 154.86 168.272 155.304 167.615 155.82C166.966 156.328 165.978 156.84 164.658 157.341C162.022 158.34 158.18 159.25 153.397 160.017C143.84 161.55 130.617 162.5 116 162.5C101.383 162.5 88.1602 161.55 78.6025 160.017C73.8197 159.25 69.9775 158.34 67.3423 157.341C66.0219 156.84 65.034 156.328 64.3852 155.82C63.7278 155.304 63.5 154.86 63.5 154.5C63.5 154.14 63.7278 153.696 64.3852 153.18C65.034 152.672 66.0219 152.16 67.3423 151.659C69.9775 150.66 73.8197 149.75 78.6025 148.983C88.1602 147.45 101.383 146.5 116 146.5C130.617 146.5 143.84 147.45 153.397 148.983C158.18 149.75 162.022 150.66 164.658 151.659C165.978 152.16 166.966 152.672 167.615 153.18C168.272 153.696 168.5 154.14 168.5 154.5Z" stroke="white" />
+            </g>
+        </g>
+    </g>
+    <defs>
+        <filter id="filter0_d" x="18" y="136" width="196" height="37" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+            <feOffset />
+            <feGaussianBlur stdDeviation="2" />
+            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+        </filter>
+        <filter id="filter1_d" x="39" y="139" width="154" height="31" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+            <feOffset />
+            <feGaussianBlur stdDeviation="2" />
+            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+        </filter>
+        <filter id="filter2_d" x="59" y="142" width="114" height="25" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+            <feOffset />
+            <feGaussianBlur stdDeviation="2" />
+            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+        </filter>
+        <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(115.647 177.487) scale(78.0553 252.4)">
+            <stop offset="0.01" stop-color="#C5C5D7" />
+            <stop offset="1" stop-color="#8688BA" />
+        </radialGradient>
+        <radialGradient id="paint1_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(112.255 162.286) scale(80.8146 170.71)">
+            <stop stop-color="#DBDEE6" />
+            <stop offset="1" stop-color="#C5C6DB" />
+        </radialGradient>
+        <radialGradient id="paint2_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(112.255 162.286) scale(80.8146 170.71)">
+            <stop stop-color="#DBDEE6" />
+            <stop offset="1" stop-color="#C5C6DB" />
+        </radialGradient>
+        <radialGradient id="paint3_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(115.998 155.467) rotate(90) scale(16.4667 100.349)">
+            <stop stop-color="#C5C6DB" />
+            <stop offset="1" stop-color="#8183AC" />
+        </radialGradient>
+        <radialGradient id="paint4_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(116 157.5) rotate(90) scale(14.5 100)">
+            <stop stop-color="#131F49" />
+            <stop offset="1" stop-color="#8F91B6" stop-opacity="0" />
+        </radialGradient>
+    </defs>
+</svg>

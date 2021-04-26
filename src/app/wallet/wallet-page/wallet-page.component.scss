@@ -1,0 +1,172 @@
+@import 'variables';
+
+.page-row {
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+    display: grid;
+    align-content: end;
+    position: relative;
+}
+
+.hamster-dialog {
+    position: relative;
+}
+
+.connect-btn + .connect-btn {
+    margin-top: 16px;
+}
+
+.connect-btn {
+    background-color: $bg-color--secondary;
+    color: $button-text-color;
+    max-width: 224px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    border-radius: 72px;
+    padding: 0 16px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.connection-error {
+    margin-top: 16px;
+}
+
+.hamster-dialog__wallet-connect {
+    height: 265px;
+    max-width: 265px;
+    width: 100%;
+    margin-bottom: 16px;
+    padding-top: 72px;
+    box-sizing: content-box;
+}
+
+.walelt-connect__hamster-img {
+    height: 100%;
+    width: auto;
+}
+
+.connect-wallet__dialog {
+    max-width: 220px;
+    position: absolute;
+    bottom: 190px;
+    left: 110px;
+}
+
+.hamster-dialog__wallet-connecting {
+    height: 290px;
+    max-width: 315px;
+    width: 100%;
+    margin-bottom: 120px;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 72px;
+    box-sizing: content-box;
+}
+
+.platform-selector__wrapper {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 16px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.platform-selector__item {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    padding: 2px;
+    background: transparent;
+}
+
+.platform-selector__item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.platform-selector__item--selected {
+    border: 2px solid $border-color--primary;
+}
+
+.wallet-connecting__hamster-img {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.connection-modal-dialog {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.connecting-wallet__dialog {
+    max-width: 100%;
+    position: absolute;
+    bottom: 230px;
+    right: 130px;
+}
+
+.hamster-dialog__wallet-connected {
+    height: 290px;
+    max-width: 265px;
+    width: 100%;
+    margin-bottom: 16px;
+    padding-top: 72px;
+    box-sizing: content-box;
+}
+
+.hamster.wallet-connected__hamster-img {
+    height: 100%;
+    width: auto;
+}
+
+.connected-wallet__dialog {
+    max-width: 230px;
+    position: absolute;
+    bottom: 220px;
+    left: 130px;
+}
+
+.disconnection {
+    position: absolute;
+    right: -8px;
+    bottom: 32px;
+    width: 120px;
+    padding: 14px 10px;
+    display: grid;
+    justify-items: center;
+}
+
+.disconnection__btn {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+@media (hover: hover) {
+    .connect-btn:hover {
+        filter: brightness(1.1);
+    }
+
+    .disconnection__btn:hover {
+        filter: brightness(1.1);
+    }
+}

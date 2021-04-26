@@ -1,0 +1,31 @@
+<div class="page-row page-row--vertical-center">
+    <div class="relative">
+        <div class="wrapper--center" *ngIf='teleportState'>
+            <div class="portal-2">
+                <img class='portal-2__img' src="/assets/images/platform-2.svg" alt="Scotty Beam Platform">
+                <div class="portal-2__platform">
+                    <img src="/assets/images/logos/logo__{{getPlatformTo()}}.svg" alt="{{getPlatformTo()}}" class="portal-2__platform-img">
+                </div>
+                <div *ngIf='teleportState' class="portal-2__token-img-wrapper" data-augmented-ui="tr-clip bl-clip border tl-round br-round">
+                    <img class='portal-2__token-img' [src]="teleportState.token.tokenURI" (error)="parseImgUrl($event)" [alt]="teleportState.token.name">
+                </div>
+                <img src="/assets/images/glow.png" alt="Teleport" class="portal-2__glow">
+            </div>
+            <div class="portal-1">
+                <img class='portal-1__img' src="/assets/images/platform-1--without-glow.svg" alt="Scotty Beam Platform">
+                <div class="portal-1__platform">
+                    <img src="/assets/images/logos/logo__{{teleportState.token.platform}}.svg" alt="{{teleportState.token.platform}}" class="portal-1__platform-img">
+                </div>
+                <div class="hamster-block">
+                    <img src="/assets/images/hamster/hamster__action.svg" alt="" class="hamster-img">
+                    <app-text-dialog class='hamster__dialog' modal-border-radius='11px 11px 0 11px'>
+                        {{"TELEPORT.SUCCESS.DESCRIPTION" | translate}}
+                    </app-text-dialog>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper--center">
+            <a data-augmented-ui="tr-clip bl-clip" routerLink='/nfts' class="btn btn-link">{{"WALLET.CONNECTED.GO-TO-NFT" | translate}}</a>
+        </div>
+    </div>
+</div>

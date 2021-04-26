@@ -1,0 +1,40 @@
+@import 'variables';
+
+.gas-selector {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 8px;
+}
+
+.gas-selector__item {
+    display: grid;
+    justify-items: stretch;
+    row-gap: 8px;
+}
+
+.bullet {
+    background-color: $bg-color--primary;
+    border: 2px solid $bg-color--secondary;
+    color: $border-color--primary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.fee {
+    font-size: 10px;
+}
+
+.gas-selector__item--selected {
+    .bullet {
+        background-color: $bg-color--secondary;
+        color: #ffffff;
+    }
+
+    .fee {
+        color: #ffffff;
+    }
+}
