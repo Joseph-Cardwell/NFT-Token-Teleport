@@ -62,10 +62,10 @@ BSC_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS
 
 5. Start web-service.
 Development configuration:
-	npm install
-	npm run dev:ssr
+-npm install
+-npm run dev:ssr
 
 Production configuration:
-	npm install
-	npm run build:ssr
-	node index.js
+-npm install
+-npm run build:ssr
+-node index.js
