@@ -20,7 +20,8 @@
     "ALERTS": {
         "METAMASK-WRONG-NETWORK": {
             "TITLE": "Please change network",
-            "DESCRIPTION": "To continue please change blockchain network in your Crypto Wallet to {{network}}"
+            "DESCRIPTION": "To continue please change blockchain network in your Crypto Wallet to {{network}}",
+            "LINK-BSC": "How to Add Binance Smart Chain Testnet?"
         },
         "WALLETCONNECT-WRONG-NETWORK": {
             "TITLE": "Reconnection required",
@@ -31,7 +32,11 @@
     "WALLET": {
         "NOT-CONNECTED": {
             "DESCRIPTION": "Connect wallet, mate. Press the button",
-            "CONNECT-WALLET": "Connect Wallet"
+            "CONNECT-WALLET": "Connect Wallet",
+            "INFO": {
+                "DESCRIPTION": "PLEASE NOTE: All transaction are performed in Kovan Ethereum and Binance Smart Chain Test-nets ONLY!",
+                "LINK": "How to Add BSC Test-net"
+            }
         },
         "CONNECTION": {
             "TITLE": "Connect Wallet",
@@ -87,7 +92,7 @@
             "SUBMIT": "Proceed"
         },
         "DESIGNATE": {
-            "TITLE": "Register teleport life-form?",
+            "TITLE": "Register NFT life-form?",
             "DESCRIPTION": "This life-form is not yet registered in the teleport.",
             "MODAL-DESCRIPTION": "",
             "SPEED": "Registration speed",

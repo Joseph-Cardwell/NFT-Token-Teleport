@@ -44,7 +44,7 @@ export class TeleportStepApproveComponent implements OnInit
 
         try
         {
-            const tx = await this.teleport.getApprovalTx();
+            const tx = this.teleportState.approvalTx || await this.teleport.getApprovalTx();
 
             this.step = 'confirmation';
 

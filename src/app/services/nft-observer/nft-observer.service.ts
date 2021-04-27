@@ -165,14 +165,24 @@ export class NftObserverService
     {
         const agentsAddress = this.getTeleportAgents();
 
-        await this.loadWalletNFTTokens(_walletAddress, _tokens, this.ethereumProvider, agentsAddress.ethereum, 'ethereum');
+        const defaultContracts = environment.default_contracts.ethereum.reduce((acc,curr)=> (acc[curr]=[],acc),{});
+        const tokens = {..._tokens};
+
+        environment.default_contracts.ethereum.forEach(_key => delete tokens[_key])
+
+        await this.loadWalletNFTTokens(_walletAddress, {...defaultContracts, ...tokens}, this.ethereumProvider, agentsAddress.ethereum, 'ethereum');
     }
 
     private async loadBscWalletNFTTokens(_walletAddress: string, _tokens: Record<string, string[]>)
     {
         const agentsAddress = this.getTeleportAgents();
 
-        await this.loadWalletNFTTokens(_walletAddress, _tokens, this.bscProvider, agentsAddress.bsc, 'bsc');
+        const defaultContracts = environment.default_contracts.bsc.reduce((acc,curr)=> (acc[curr]=[],acc),{});
+        const tokens = {..._tokens};
+
+        environment.default_contracts.ethereum.forEach(_key => delete tokens[_key])
+
+        await this.loadWalletNFTTokens(_walletAddress, {...defaultContracts, ...tokens}, this.bscProvider, agentsAddress.bsc, 'bsc');
     }
 
     private async loadWalletNFTTokens(_walletAddress: string, _tokens: Record<string, string[]>, _provider: providers.Provider, _agentAdress: string, _platform: Platform)

@@ -1,4 +1,5 @@
 var winston = require("winston");
+var azureBlobTransport = require("winston3-azureblob-transport");
 import {CONSOLE_LOG_ON} from '../../config';
 
 //**************************************************************************************************
@@ -66,6 +67,44 @@ class Logger
 	private _init()
 	{
 		const transports = [];
+
+        if("AZURE_STORAGE_ACCOUNT_NAME" in process.env
+            && "AZURE_STORAGE_ACCOUNT_KEY" in process.env
+            && "AZURE_STORAGE_CONTAINER_NAME" in process.env
+            && "AZURE_STORAGE_BLOB_NAME" in process.env)
+        {
+            const date = new Date(Date.now());
+
+            const transportBlob = new (azureBlobTransport)
+            ({
+                account:
+                {
+                    name: (process.env.AZURE_STORAGE_ACCOUNT_NAME).toLowerCase(),
+                    key: process.env.AZURE_STORAGE_ACCOUNT_KEY
+                },
+                containerName:((process.env.AZURE_STORAGE_CONTAINER_NAME).toLowerCase()),
+                blobName: `${date.getFullYear()}`
+                            + `_${Number(date.getMonth())+Number(1)}`
+                            + `_${date.getDate()}/${(process.env.AZURE_STORAGE_BLOB_NAME).toLowerCase()}`
+                            + `_${date.getFullYear()}`
+                            + `_${Number(date.getMonth())+Number(1)}`
+                            + `_${date.getDate()}`
+                            + `_${date.getHours()}`
+                            + `_.log`,
+                level: "info",
+                bufferLogSize : 250,
+                syncTimeout : 10 * 1000,
+                rotatePeriod : "",
+                eol : "\n",
+                format: winston.format.combine
+                (
+                    winston.format.simple(),
+                    winston.format.timestamp({format: 'DD-MM-YYYY HH:mm:ss.SSS'}),
+                    winston.format.printf(msg => `[${msg.timestamp}] [${msg.level}] ${msg.message}`)
+                )
+            })
+            transports.push(transportBlob);
+        }
 
 		if(CONSOLE_LOG_ON)
 		{

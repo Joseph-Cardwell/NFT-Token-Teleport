@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { BlockchainConnectorService } from '../blockchain-connector/blockchain-connector.service';
 import { Platform } from '../nft-observer/nft-observer.service';
 import { ApiResponse, ApiTxResponse, FormTxErrors, TxFromApi } from '../teleport/teleport.service';
@@ -16,6 +18,7 @@ export class FaucetService
 {
 
     private allowedTokens: AllowedTokensFaucet;
+    private getAllowTokensRequest: Observable<ApiResponse<any>>
 
     constructor(
         private http: HttpClient,
@@ -36,18 +39,33 @@ export class FaucetService
     {
         if (this.allowedTokens && !_force) return this.allowedTokens;
 
-        const response = <ApiResponse<any>>await this.http.post(
-            '/api/bridge/get-check-free-nft', 
-            {
-                wallet_address: this.blockchainConnector.walletAddress
-            }).toPromise();
+        if (!this.getAllowTokensRequest)
+        {
+            this.getAllowTokensRequest = <Observable<ApiResponse<any>>>this.http.post(
+                '/api/bridge/get-check-free-nft', 
+                {
+                    wallet_address: this.blockchainConnector.walletAddress
+                }).pipe(shareReplay(1));
+        }
+        
+        return new Promise((resolve, reject) => 
+        {
+            this.getAllowTokensRequest.subscribe(_response => 
+                {
+                    this.allowedTokens = {
+                        bsc: _response.data.bsc,
+                        ethereum: _response.data.eth
+                    };
 
-        this.allowedTokens = {
-            bsc: response.data.bsc,
-            ethereum: response.data.eth
-        };
-
-        return this.allowedTokens;
+                    this.getAllowTokensRequest = null;
+            
+                    resolve(this.allowedTokens)
+                },
+                _error => {
+                    this.getAllowTokensRequest = null;
+                    reject(_error);
+                });
+        })
     }
 
     public async faucetTokens(_platform: Platform): Promise<TxFromApi>

@@ -46,7 +46,7 @@ export class TeleportStepSwapComponent implements OnInit
 
         try
         {
-            const tx = await this.teleport.getSwapTx();
+            const tx = this.teleportState.swapTx || await this.teleport.getSwapTx();
 
             this.step = 'confirmation';
 

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { AlertService } from '../../services/alert/alert.service';
 import { BlockchainConnectorService } from '../../services/blockchain-connector/blockchain-connector.service';
-import { AccountToken, NftObserverService, Platform } from '../../services/nft-observer/nft-observer.service';
+import { AccountToken, NftObserverService, NftSearchingState, Platform } from '../../services/nft-observer/nft-observer.service';
 import { TeleportService } from '../../services/teleport/teleport.service';
-import { parseImgSrc } from '../../shared/utils';
+import { getPlatformByChainId, parseImgSrc } from '../../shared/utils';
 
 @Component({
     selector: 'app-teleport-page',
@@ -34,7 +34,7 @@ export class TeleportPageComponent implements OnInit
 
     async ngOnInit(): Promise<void>
     {
-        this.platform = (this.route.snapshot.queryParams.platform || 'ethereum').toLowerCase();
+        this.platform = (this.route.snapshot.queryParams.platform || getPlatformByChainId(this.blockchainConnector.network.chainId)).toLowerCase();
         this.contractAddress = this.route.snapshot.queryParams.contract || '';
         this.tokenId = this.route.snapshot.queryParams.token_id || '';
 
@@ -44,8 +44,7 @@ export class TeleportPageComponent implements OnInit
         {
             if (!this.token)
             {
-                const tokens = await this.nftObserver.accountTokens.pipe(take(1)).toPromise();
-                this.token = tokens.find(_item => _item.platform === this.platform);
+                await this.getFirstToken();
             }
 
             console.debug('Token > ', this.token);
@@ -106,15 +105,40 @@ export class TeleportPageComponent implements OnInit
     {
         this.oppositeContractAddress = await this.teleport.checkAddress(this.token.contractAddress, this.token.platform, this.token.wrapped);
     }
-    
+
     public parseImgUrl(_event)
     {
         const isLoadedBefore = _event.target.getAttribute('data-second-load');
 
         if (Boolean(isLoadedBefore)) return;
-        
+
         _event.target.onerror = null;
         _event.target.setAttribute('data-second-load', 'true');
         _event.target.src = parseImgSrc(_event.target.src);
+    }
+
+    private async getFirstToken()
+    {
+        await this.nftObserver.searchState.pipe(
+            filter(_state => _state === NftSearchingState.Searched),
+            take(1)
+        ).toPromise();
+        
+        const count = await this.nftObserver.accountTokensCount.pipe(take(1)).toPromise()
+
+        return new Promise((resolve) => 
+        {
+            const subscription = this.nftObserver.accountTokens.subscribe(_tokens => 
+                {
+                    if (!!this.token) return;
+
+                    this.token = _tokens.find(_item => _item.platform === this.platform);
+                    
+                    if (!!this.token || _tokens.length === count)
+                    {
+                        resolve(null);
+                    }
+                })
+        });
     }
 }

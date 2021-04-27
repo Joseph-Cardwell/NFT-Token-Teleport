@@ -38,7 +38,7 @@ export const PROVIDER_POOL_CFG:Array<ProviderConfig> =
 	{priority: 3, weight: 1, stallTimeout: 2 * 1000, providerId: process.env.ETHERSCAN_PROVIDER_ID_1,	provider_type: ProviderType.ETHERSCAN},
 	{priority: 3, weight: 1, stallTimeout: 2 * 1000, providerId: process.env.ETHERSCAN_PROVIDER_ID_2,	provider_type: ProviderType.ETHERSCAN}
 ];
-export const PROVIDER_POOL_QUORUM:number			= 2;
+export const PROVIDER_POOL_QUORUM:number			= 1;
 
 //--------------------------------------------------------------------------------------------
 // Binance Smart Chain Provider pool configuration
@@ -94,9 +94,15 @@ export const BSC_TELEPORT_AGENT_CONTRACT_ADDRESS:string			= USE_MAINNET
 export const ETH_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS:string		= USE_MAINNET
 																	? "".toLowerCase()
 																	: "0x75412121FB2F46CDFa6aF8f1fd0c0AC5409eb9d2".toLowerCase();
+export const ETH_FAUCET_SCOTTY_BEAM_BSC_WRAPPED_CONTRACT_ADDRESS:string	= USE_MAINNET
+																	? "".toLowerCase()
+																	: "0x4db1E6883daBAD3FD432e2BD9c2A5a84F36d465c".toLowerCase();
 //--------------------------------------------------------------------------------------------
 // Binance Smart Chain Bridge contract
 //--------------------------------------------------------------------------------------------
 export const BSC_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS:string		= USE_MAINNET
 																	? "".toLowerCase()
 																	: "0x3aaD0cC127cFE1c527C18D537141214839096914".toLowerCase();
+export const BSC_FAUCET_SCOTTY_ETH_WRAPPEDBEAM_CONTRACT_ADDRESS:string	= USE_MAINNET
+																	? "".toLowerCase()
+																	: "0x03aeef0d6dd7291a80e57f89d32d05fe3615eb2a".toLowerCase();

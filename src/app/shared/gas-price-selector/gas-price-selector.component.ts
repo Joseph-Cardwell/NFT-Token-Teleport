@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BigNumber, utils } from 'ethers';
+import { BlockchainConnectorService } from '../../services/blockchain-connector/blockchain-connector.service';
 import { TxFromApi } from '../../services/teleport/teleport.service';
+import { getPlatformByChainId } from '../utils';
 
 export type FeeOracle = {
     gasPrice: string,
@@ -27,19 +29,27 @@ export class GasPriceSelectorComponent implements OnInit
     @Output('gas-change')
     public change: EventEmitter<FeeOracle> = new EventEmitter();
 
+    public baseToken: 'BNB' | 'ETH' = 'ETH';
+
     public feeOracles: FeeOracles;
 
     public currentOracle: string = 'normal';
 
-    constructor() { }
+    constructor(
+        private blockchainConnector: BlockchainConnectorService
+    ) { }
 
     ngOnInit(): void
     {
-        const fastGasPriceBN = utils.parseUnits(Number(this.txData.gasPrice).toString(), 'wei');
+        const platfrom = getPlatformByChainId(this.blockchainConnector.network.chainId);
+
+        this.baseToken = platfrom === 'ethereum' ? 'ETH' : 'BNB';
+
+        const defaultGasPriceBN = utils.parseUnits(Number(this.txData.gasPrice).toString(), 'wei');
         const defaultGasLimitBN = utils.parseUnits(Number(this.txData.gasLimit).toString(), 'wei');
 
-        const defaultGasPriceBN = fastGasPriceBN.sub(fastGasPriceBN.div(6));
-        const slowGasPriceBN = defaultGasPriceBN.sub(fastGasPriceBN.div(6).mul(2));
+        const fastGasPriceBN = defaultGasPriceBN.add(defaultGasPriceBN.div(5));
+        const slowGasPriceBN = defaultGasPriceBN.sub(defaultGasPriceBN.div(6));
 
         this.feeOracles = {
             slow: {

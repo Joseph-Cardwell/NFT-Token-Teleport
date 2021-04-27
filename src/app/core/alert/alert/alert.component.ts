@@ -23,7 +23,7 @@ export class AlertComponent implements OnInit
         this.alertService.messages.subscribe((_data) =>
         {
             if (Boolean(_data.type) && _data.type !== 'default') return;
-            
+
             this.title = _data.title;
             this.message = _data.message;
             this.params = _data.params || {};

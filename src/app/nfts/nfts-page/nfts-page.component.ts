@@ -97,7 +97,9 @@ export class NftsPageComponent implements OnInit, OnDestroy
             this.alertService.show({
                 title: "ALERTS.METAMASK-WRONG-NETWORK.TITLE",
                 message: "ALERTS.METAMASK-WRONG-NETWORK.DESCRIPTION",
-                params: { network: environment.network_names[environment.opposite_networks[network.chainId]] }
+                params: { network: environment.network_names[environment.opposite_networks[network.chainId]] },
+                type: 'network-change',
+                network_data: { platform: _tokenPlatform, connector: "metamask" },
             });
         }
 
@@ -107,7 +109,7 @@ export class NftsPageComponent implements OnInit, OnDestroy
                 title: "ALERTS.WALLETCONNECT-WRONG-NETWORK.TITLE",
                 message: "ALERTS.WALLETCONNECT-WRONG-NETWORK.DESCRIPTION",
                 type: 'network-change',
-                network_data: { platform: _tokenPlatform },
+                network_data: { platform: _tokenPlatform, connector: "walletconnect" },
                 params: { network: environment.network_names[environment.opposite_networks[network.chainId]] }
             });
         }

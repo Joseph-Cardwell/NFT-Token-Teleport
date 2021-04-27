@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-// Aye there, human behind the computer!
-// Scotty on the line. Where you may see a silly hamster,
+// Aye there, human behind the electronic device!
+// Scotty's on the line. Where you may see a silly hamster,
 // others see a miracle worker, a captain by rank,
 // and an engineer by calling.
 // I have spent my whole life

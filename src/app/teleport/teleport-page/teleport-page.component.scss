@@ -29,13 +29,12 @@
     --aug-br: 6px;
     --aug-tl: 6px;
     background-color: #FFFFFF;
+    overflow: hidden;
 }
 
 .portal-1__token-img {
-    object-position: center;
-    object-fit: cover;
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
 .portal-1__token-details {

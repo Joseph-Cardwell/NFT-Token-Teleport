@@ -16,10 +16,11 @@
 }
 
 .hamster__dialog{
-    max-width: 100%;
     position: absolute;
     bottom: 230px;
     left: 130px;
+    max-width: 240px;
+    width: 48vw;
 }
 
 .transaction-dialog {
@@ -35,7 +36,7 @@
 
 .btn {
     width: auto;
-    padding: 0 32px;
+    padding: 0 24px;
     max-width: 100%;
     min-width: 200px;
 }

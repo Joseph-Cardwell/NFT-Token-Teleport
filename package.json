@@ -37,6 +37,7 @@
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "winston": "^3.3.3",
+    "winston3-azureblob-transport": "^0.1.1",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {

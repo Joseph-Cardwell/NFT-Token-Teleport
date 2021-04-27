@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../services/alert/alert.service';
-import { BlockchainConnectorService } from '../../../services/blockchain-connector/blockchain-connector.service';
+import { BlockchainConnectorService, Connectors } from '../../../services/blockchain-connector/blockchain-connector.service';
 import { Platform } from '../../../services/nft-observer/nft-observer.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class NetworkAlertComponent implements OnInit
     public message: string;
     public params: Record<string, string>;
     public platform: Platform;
+    public connector: Connectors;
     public visible: boolean = false;
 
     constructor(
@@ -31,6 +32,7 @@ export class NetworkAlertComponent implements OnInit
             if (_data.type !== 'network-change') return;
 
             this.platform = _data.network_data.platform;
+            this.connector = _data.network_data.connector
             this.title = _data.title;
             this.message = _data.message;
             this.params = _data.params || {};

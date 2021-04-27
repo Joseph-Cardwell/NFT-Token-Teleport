@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { providers, utils, VoidSigner } from 'ethers';
 import { Observable, ReplaySubject } from 'rxjs';
@@ -26,7 +26,8 @@ export class BlockchainConnectorService
     private connector_: Connectors;
 
     constructor(
-        private router: Router
+        private router: Router,
+        private zone: NgZone
     )
     {
         this.stateSubject.next(false);
@@ -35,7 +36,10 @@ export class BlockchainConnectorService
             {
                 if (!_state)
                 {
-                    this.router.navigateByUrl('/wallet');
+                    this.zone.run(() => 
+                    {
+                        this.router.navigateByUrl('/wallet');
+                    })
                 }
             });
     }
@@ -310,24 +314,7 @@ export class BlockchainConnectorService
     private listenChainIdChange()
     {
         this.externalProvider.on('chainChanged', (_chainId: number | string) => {
-            const chainId = Number(_chainId);
-
-            if (!this.network_) return;
-
-            if (this.network_?.chainId === chainId) return;
-
-            if (environment.networks.ethereum.chainId === chainId)
-            {
-                this.changeNetwork(environment.networks.ethereum);
-            }
-            else if (environment.networks.bsc.chainId === chainId)
-            {
-                this.changeNetwork(environment.networks.bsc);
-            }
-            else 
-            {
-                this.resetConnection();
-            }
+            this.resetConnection();
         });
     }
 
@@ -338,36 +325,5 @@ export class BlockchainConnectorService
             
             this.resetConnection();
         });
-    }
-
-    private async changeNetwork(_network: providers.Network)
-    {
-        this.network_ = _network;
-
-        if (this.network.chainId === 97 || this.network.chainId === 56)
-        {
-            this.internalProvider = this.getBSCProvider();
-            this.externalProvider = 
-            this.externalWeb3Provider = new providers.Web3Provider(this.externalProvider);
-            this.wallet = new VoidSigner(this.walletAddress, this.internalProvider);
-            this.externalProvider = null;
-            this.externalWeb3Provider = null;
-            this.network_ = null;
-            this.internalProvider = null;
-            this.walletAddress_ = null;
-            this.wallet = null;
-        }
-        else 
-        {
-            this.internalProvider = new providers.AlchemyProvider(this.network_, environment.providers.alchemy);
-            this.externalWeb3Provider = new providers.Web3Provider(this.externalProvider);
-            this.wallet = new VoidSigner(this.walletAddress, this.internalProvider);
-        }
-
-        if (this.connector_ === 'walletconnect')
-        {
-            this.externalWeb3Provider = new providers.Web3Provider(this.externalProvider, this.network_);
-            this.wallet = new VoidSigner(this.walletAddress, this.internalProvider);
-        }
     }
 }

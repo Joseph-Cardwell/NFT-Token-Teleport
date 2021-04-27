@@ -27,7 +27,7 @@
         data-augmented-ui="tr-clip bl-clip"
         (click)='startTeleport()' 
         class="btn" 
-        [disabled]='processing' 
+        [disabled]='processing || !this.token' 
         [class.btn--processing]='processing'>{{"TELEPORT.START-SWAP" | translate}}</button>
     </div>
 </div>

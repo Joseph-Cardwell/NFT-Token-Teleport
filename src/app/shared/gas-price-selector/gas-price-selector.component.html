@@ -7,7 +7,7 @@
         <button class="bullet">
             {{'COMMON.GAS-SELECTOR.SLOW' | translate}}
         </button>
-        <p class="text text--center fee">{{feeOracles.slow.baseCurrencyValue | numberParser: 8: 5}} ETH</p>
+        <p class="text text--center fee">{{feeOracles.slow.baseCurrencyValue | numberParser: 8: 5}} {{baseToken}}</p>
     </div>
     <div 
         class="gas-selector__item" 
@@ -17,7 +17,7 @@
         <button class="bullet">
             {{'COMMON.GAS-SELECTOR.NORMAL' | translate}}
         </button>
-        <p class="text text--center fee">{{feeOracles.normal.baseCurrencyValue | numberParser: 8: 5}} ETH</p>
+        <p class="text text--center fee">{{feeOracles.normal.baseCurrencyValue | numberParser: 8: 5}} {{baseToken}}</p>
     </div>
     <div 
         class="gas-selector__item" 
@@ -27,6 +27,6 @@
         <button class="bullet">
             {{'COMMON.GAS-SELECTOR.FAST' | translate}}
         </button>
-        <p class="text text--center fee">{{feeOracles.fast.baseCurrencyValue | numberParser: 8: 5}} ETH</p>
+        <p class="text text--center fee">{{feeOracles.fast.baseCurrencyValue | numberParser: 8: 5}} {{baseToken}}</p>
     </div>
 </div>

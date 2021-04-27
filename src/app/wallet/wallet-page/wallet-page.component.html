@@ -11,6 +11,16 @@
         <div class="wrapper--center">
             <button data-augmented-ui="tr-clip bl-clip" class="btn" (click)='showWalletConnection()'>{{"WALLET.NOT-CONNECTED.CONNECT-WALLET" | translate}}</button>
         </div>
+        <div class="wrapper--center">
+            <div class="info">
+                <img class='info__icon' src="/assets/images/icon__success.svg">
+                <p class='text text--size-s info__description'>
+                    <span [innerHTML]='"WALLET.NOT-CONNECTED.INFO.DESCRIPTION" | translate'></span>
+                    <br><br>
+                    <a class='info__link' target="_blank" href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain">{{"WALLET.NOT-CONNECTED.INFO.LINK" | translate}}</a>
+                </p>
+            </div>
+        </div>
     </div>
     <div *ngIf='connectionState && state === "default"' class="content">
         <div class="wrapper--center">
@@ -51,6 +61,7 @@
                     <button (click)='selectPlatform("ethereum")' class="platform-selector__item" [class.platform-selector__item--selected]='selectedPlatform === "ethereum"'>
                         <img src="/assets/images/logos/logo__ethereum.svg" alt="Ethereum" class="platform-selector__item-icon">
                     </button>
+                    <p class="text text--size-s text--color-secondary text--center">or</p>
                     <button (click)='selectPlatform("bsc")' class="platform-selector__item" [class.platform-selector__item--selected]='selectedPlatform === "bsc"'>
                         <img src="/assets/images/logos/logo__bsc.svg" alt="BSC" class="platform-selector__item-icon">
                     </button>

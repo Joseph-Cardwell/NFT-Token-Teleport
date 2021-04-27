@@ -44,7 +44,7 @@ export class TeleportStepDesignateComponent implements OnInit
 
         try
         {
-            const tx = await this.teleport.getContractCreateTx();
+            const tx = this.teleportState.contractCreationTx || await this.teleport.getContractCreateTx();
 
             this.step = 'confirmation';
 

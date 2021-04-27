@@ -11,14 +11,7 @@
         <div class="wrapper--center transaction-dialog">
             <app-modal-dialog *ngIf='teleportState' [modal-title]='getTitle()' (close)='close()'>
     
-                <p 
-                    *ngIf='teleportState.token.platform === "bsc"'
-                    class="text text--center"
-                    [innerHTML]='"TELEPORT.APPROVAL.MODAL-DESCRIPTION" | translate'
-                    >
-                </p>
-    
-                <div *ngIf='teleportState.token.platform === "ethereum"'>
+                <div>
                     <p class="text text--size-s text--color-secondary speed">{{"TELEPORT.SWAP.SPEED" | translate}}</p>
                     <app-gas-price-selector (gas-change)='gasChanged($event)' [tx-data]='teleportState.swapTx'></app-gas-price-selector>
                 </div>

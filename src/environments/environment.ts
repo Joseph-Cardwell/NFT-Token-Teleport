@@ -4,10 +4,15 @@
 
 import { ALCHEMY_PROVIDER_API_KEY,
         BSCSCAN_PROVIDER_API_KEY,
+        BSC_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS,
         BSC_TELEPORT_AGENT_CONTRACT_ADDRESS,
         ETHERSCAN_PROVIDER_API_KEY,
+        ETH_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS,
         ETH_TELEPORT_AGENT_CONTRACT_ADDRESS,
-        INFURA_PROVIDER_API_KEY } from "config";
+        INFURA_PROVIDER_API_KEY,
+        ETH_FAUCET_SCOTTY_BEAM_BSC_WRAPPED_CONTRACT_ADDRESS, 
+        BSC_FAUCET_SCOTTY_ETH_WRAPPEDBEAM_CONTRACT_ADDRESS
+    } from "config";
 
 export const environment = {
     production: false,
@@ -79,6 +84,16 @@ export const environment = {
             56: "https://bsc-dataseed.binance.org/",
             97: "https://data-seed-prebsc-1-s1.binance.org:8545/"
         }
+    },
+    default_contracts: {
+        bsc: [
+            BSC_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS,
+            BSC_FAUCET_SCOTTY_ETH_WRAPPEDBEAM_CONTRACT_ADDRESS
+        ],
+        ethereum: [
+            ETH_FAUCET_SCOTTY_BEAM_CONTRACT_ADDRESS,
+            ETH_FAUCET_SCOTTY_BEAM_BSC_WRAPPED_CONTRACT_ADDRESS
+        ]
     }
 };
 

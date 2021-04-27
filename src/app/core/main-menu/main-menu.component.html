@@ -16,7 +16,7 @@
             <rect x="18" y="18" width="8" height="8" rx="2" fill="currentColor" />
         </svg>
     </a>
-    <a routerLink='/teleport' class="nav__link" routerLinkActive='nav__link--active' [class.nav__link--disabled]='!connectionState'>
+    <a routerLink='/teleport' class="nav__link" routerLinkActive='nav__link--active' [class.nav__link--disabled]='!connectionState || !hasTokens'>
         <svg class='nav__link-icon' viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="16" cy="25" rx="12" ry="3" fill="currentColor" />
             <ellipse cx="16" cy="6" rx="9" ry="2" fill="currentColor" />

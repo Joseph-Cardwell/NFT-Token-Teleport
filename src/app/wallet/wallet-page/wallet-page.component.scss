@@ -54,7 +54,8 @@
 }
 
 .connect-wallet__dialog {
-    max-width: 220px;
+    max-width: 240px;
+    width: 50vw;
     position: absolute;
     bottom: 190px;
     left: 110px;
@@ -76,19 +77,21 @@
     grid-auto-flow: column;
     column-gap: 16px;
     justify-content: center;
+    align-items: center;
     margin-bottom: 16px;
 }
 
 .platform-selector__item {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    border: 2px solid transparent;
+    border: 1px solid $border-color--primary;
     overflow: hidden;
     cursor: pointer;
     outline: none;
-    padding: 2px;
+    padding: 5px;
     background: transparent;
+    opacity: 0.5;
 }
 
 .platform-selector__item-icon {
@@ -101,7 +104,9 @@
 }
 
 .platform-selector__item--selected {
-    border: 2px solid $border-color--primary;
+    opacity: 1;
+    border: 3px solid $border-color--primary;
+    padding: 3px;
 }
 
 .wallet-connecting__hamster-img {
@@ -121,6 +126,8 @@
     position: absolute;
     bottom: 230px;
     right: 130px;
+    max-width: 260px;
+    width: 46vw;
 }
 
 .hamster-dialog__wallet-connected {
@@ -142,6 +149,8 @@
     position: absolute;
     bottom: 220px;
     left: 130px;
+    max-width: 230px;
+    width: 48vw;
 }
 
 .disconnection {
@@ -159,6 +168,33 @@
     width: 40px;
     height: 40px;
     margin-bottom: 8px;
+}
+
+.info {
+    max-width: 420px;
+    width: 100%;
+    border-radius: 11px;
+    background-color: $bg-color--secondary;
+    padding: 8px 16px;
+    margin-top: 16px;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.info__icon {
+    width: 32px;
+    height: 32px;
+}
+
+.info__description {
+    color: #fff;
+}
+
+.info__link {
+    color: #fff;
+    font-weight: bold;
 }
 
 @media (hover: hover) {

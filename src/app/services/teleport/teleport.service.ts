@@ -59,7 +59,12 @@ export class TeleportService
         private http: HttpClient,
         private router: Router,
         private blockchainConnector: BlockchainConnectorService
-    ) { }
+    ) {
+        this.blockchainConnector.state.subscribe(_state => 
+            {
+                if (!_state) this.state = null;
+            })
+     }
 
     public async checkAddress(_contractAddress: string, _platform: Platform, _wrapped: boolean): Promise<string>
     {
@@ -194,11 +199,9 @@ export class TeleportService
         };
     }
 
-    private parseGetTxResponses(_response: ApiTxResponse): TxFromApi
+    private parseGetTxResponses(_response: ApiTxResponse, _txKey?: string): TxFromApi
     {
         if (_response.result !== 0) throw new Error(this.parseResponseResult(_response.result));
-
-        this.state.contractCreationTx = _response.data.tx;
 
         return _response.data.tx;
     }

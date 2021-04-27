@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { Connectors } from '../blockchain-connector/blockchain-connector.service';
 import { Platform } from '../nft-observer/nft-observer.service';
 
 export type AlertMessage = {
     title: string,
     message: string,
     type?: 'network-change' | 'default',
-    network_data?: {platform: Platform}
+    network_data?: {platform: Platform, connector: Connectors}
     params?: Record<string, string>
 }
 

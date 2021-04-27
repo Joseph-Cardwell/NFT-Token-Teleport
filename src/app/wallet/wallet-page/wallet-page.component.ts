@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debug } from 'node:console';
 import { Observable } from 'rxjs';
@@ -27,11 +27,22 @@ export class WalletPageComponent implements OnInit
         private blockchainConnector: BlockchainConnectorService,
         private alertService: AlertService,
         private route: ActivatedRoute,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit(): void
     {
-        this.blockchainConnector.state.subscribe(_state => this.connectionState = _state);
+        this.blockchainConnector.state.subscribe(_state => 
+            {
+                this.connectionState = _state
+
+                if (!_state)
+                {
+                    this.state = 'default';
+                }
+                
+                this.cdr.detectChanges();
+            });
 
         this.detectConnectors();
 
