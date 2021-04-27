@@ -55,7 +55,7 @@ ALCHEMY_PROVIDER_ID_2
 ETHERSCAN_PROVIDER_ID_1
 ETHERSCAN_PROVIDER_ID_2
 ```
-You can edit PROVIDER_POOL_CFG constant in ./config.ts file in order to change the required pool of blockchain providers.
+You can edit `PROVIDER_POOL_CFG` constant in `./config.ts` file in order to change the required pool of blockchain providers.
 
 #### Specify values of deployed smart contracts in ./config.ts file
 Following constants must be set:
